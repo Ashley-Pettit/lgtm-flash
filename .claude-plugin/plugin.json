@@ -1,0 +1,9 @@
+{
+  "name": "lgtm-flash",
+  "version": "1.0.0",
+  "description": "After every code change, the LGTM Lines container ship sails in, the L G T M containers slam onto its deck, and the camera zooms in on LOOKS GOOD TO ME",
+  "author": { "name": "Ash" },
+  "license": "MIT",
+  "keywords": ["mod", "lgtm", "animation", "fun", "ship"],
+  "types": "./types/index.d.ts"
+}
