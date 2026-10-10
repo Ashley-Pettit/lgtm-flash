@@ -240,12 +240,12 @@ export const shipSvg = (lines: number) => `<svg xmlns="http://www.w3.org/2000/sv
   <rect x="${-PAD}" width="${W + 2 * PAD}" height="${H}" fill="url(#sky)"/>
   ${stars()}
 
-  <!-- header strip, as in the video; it gives way to the close-up -->
+  <!-- header strip, as in the video, spread over the full stage so its text can be large; it gives way to the close-up -->
   <g>
     <animate attributeName="opacity" values="1;0" begin="${s(ZOOM_IN)}" dur="0.4s" fill="freeze"/>
-  <text x="18" y="22" font-family="'Cascadia Mono', Consolas, 'Courier New', monospace" font-size="15" font-weight="700" letter-spacing="2.5" fill="#d9e1e8">L-G-T-M  ·  CHORUS 1  ·  SHIPPING</text>
-  <text x="${W - 18}" y="22" text-anchor="end" font-family="'Cascadia Mono', Consolas, 'Courier New', monospace" font-size="15" font-weight="700" letter-spacing="2.5" fill="#d9e1e8"><tspan fill="#3dff8a">+${commas(lines)} LINES</tspan>  ·  HUMANS WHO UNDERSTAND IT  0</text>
-  <line x1="18" y1="32" x2="${W - 18}" y2="32" stroke="#3a4654" stroke-width="1"/>
+  <text x="${-PAD + 24}" y="34" font-family="'Cascadia Mono', Consolas, 'Courier New', monospace" font-size="30" font-weight="700" letter-spacing="3" fill="#d9e1e8">L-G-T-M  ·  CHORUS 1  ·  SHIPPING</text>
+  <text x="${W + PAD - 24}" y="34" text-anchor="end" font-family="'Cascadia Mono', Consolas, 'Courier New', monospace" font-size="30" font-weight="700" letter-spacing="3" fill="#d9e1e8"><tspan fill="#3dff8a">+${commas(lines)} LINES</tspan> THAT I DIDN'T READ</text>
+  <line x1="${-PAD + 24}" y1="48" x2="${W + PAD - 24}" y2="48" stroke="#3a4654" stroke-width="1.5"/>
   </g>
 
   <!-- the camera: pushes in for the close-up, then pulls back out -->

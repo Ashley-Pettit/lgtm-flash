@@ -213,7 +213,7 @@ const draw = (frame: number, w: number, props: Props): Cell[][] => {
   text(0, 0, left, hang ? C.line : C.head, hang)
   if (hang) text(0, left.length, 'PROD', C.green, true)
   const plus = `+${commas(props.lines)} LINES`
-  const right = `${plus}  ·  HUMANS WHO UNDERSTAND IT  0`
+  const right = `${plus} THAT I DIDN'T READ`
   const rx = Math.max(left.length + 6, w - right.length)
   text(0, rx, plus, C.green, true)
   text(0, rx + plus.length, right.slice(plus.length), C.head)

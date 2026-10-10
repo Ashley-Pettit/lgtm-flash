@@ -8,7 +8,7 @@ It sails in fast, and the **L**, **G**, **T** and **M** containers slam onto its
 
 ![Close-up: LOOKS GOOD TO ME connected to the L G T M containers](assets/screenshot-closeup.png)
 
-The whole thing takes about six seconds, then the prompt is yours again. The header counts the lines Claude just wrote: **+N LINES · HUMANS WHO UNDERSTAND IT 0**.
+The whole thing takes about six seconds, then the prompt is yours again. The header reads **+40,000 LINES THAT I DIDN'T READ**.
 
 ## Install
 
@@ -31,7 +31,7 @@ It also launches by itself after every Write, Edit, MultiEdit or NotebookEdit th
 
 ## What it can reach
 
-It watches file edits as they finish, reading only the file name and the number of lines written, so it can say what shipped. It never changes or blocks an edit. It makes no network calls, starts no processes, and reads or writes no files of yours.
+It watches file edits as they finish, reading only the file name. It never changes or blocks an edit. It makes no network calls, starts no processes, and reads or writes no files of yours.
 
 ## Credit
 

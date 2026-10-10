@@ -9,19 +9,13 @@ const flash = atom({ plugin: 'lgtm-flash', key: 'flash' } as const, null as Flas
 const CODE_CHANGE = /^(Edit|MultiEdit|Write|NotebookEdit)$/
 // The desktop scene (ship-svg.ts) ends on its close-up at 6.2s; the band closes right there.
 const SHOW_MS = 6200
-// What /ship claims to have shipped, as in the video.
-const SHIP_LINES = 47089
+// What every voyage claims to have shipped; /ship 120 claims 120 instead.
+const SHIP_LINES = 40000
 
 type Change = {
   file_path?: string
   notebook_path?: string
-  content?: string
-  new_string?: string
-  new_source?: string
-  edits?: { new_string?: string }[]
 }
-
-const countLines = (s: string | undefined) => (s ? s.split('\n').length : 0)
 
 let hide: { cancel: () => void } | undefined
 
@@ -61,12 +55,7 @@ export const register: Register = on => {
     const input = e as Change
     const path = input.file_path ?? input.notebook_path ?? ''
     const file = path.split(/[\\/]/).pop() ?? ''
-    const lines =
-      countLines(input.content) +
-      countLines(input.new_string) +
-      countLines(input.new_source) +
-      (input.edits ?? []).reduce((n, edit) => n + countLines(edit.new_string), 0)
-    await launch($, file, lines)
+    await launch($, file, SHIP_LINES)
     return ran
   })
 
