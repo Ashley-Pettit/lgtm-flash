@@ -79,12 +79,14 @@ export const register: Register = on => {
     // The desktop app draws real vector art: the animated SVG ship.
     if ('Svg' in elements) {
       const { Svg } = elements
+      // Drawn as an image, which fills the band's width; an interactive frame is
+      // a fixed 150px tall and shrinks the scene to fit. The voyage stamp makes
+      // each flash a new document, so its animation starts from the first frame.
       return (
         <Svg
           key={`lgtm-svg-${f.at}`}
-          source={shipSvg(f.lines)}
+          source={shipSvg(f.lines).replace('<svg ', `<svg data-voyage="${f.at}" `)}
           alt={`LGTM: the LGTM Lines container ship sails past, ${f.lines} lines shipped`}
-          isInteractive
         />
       )
     }
