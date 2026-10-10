@@ -60,41 +60,54 @@ export const register: Register = on => {
   })
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    // Whatever else draws in the band (another mod's row, a status line) stays
+    // on screen under the ship while it plays.
+    const below = await next(e)
     const f = await read($, flash)
-    if (e.props.hasSurvey || f === null) return next(e)
+    if (e.props.hasSurvey || f === null) return below
 
     const elements = $.ui.resolve(e)
+    const { Box } = elements
 
-    // The desktop app draws real vector art: the animated SVG ship.
-    if ('Svg' in elements) {
-      const { Svg } = elements
-      // Drawn as an image, which fills the band's width; an interactive frame is
-      // a fixed 150px tall and shrinks the scene to fit. The voyage stamp makes
-      // each flash a new document, so its animation starts from the first frame.
+    // The terminal gets the ship in text characters. Chosen by the surface, not
+    // by which elements the table lists: a table can carry an element its
+    // surface draws as nothing.
+    if (e.surface === 'terminal') {
+      if (!('Client' in elements)) return below
+      const { Client } = elements
+
+      // The full ship needs 18 rows; a shorter band gets it without the grey tier.
+      const tall = e.props.maxRows >= 18
+      // A new key per flash starts the voyage from the first frame.
       return (
+        <Box flexDirection="column">
+          <Client
+            key={`lgtm-${f.at}`}
+            module="./fly.tsx"
+            props={{ file: f.file, lines: f.lines, tall }}
+            width="100%"
+            height={tall ? 18 : 14}
+          />
+          {below}
+        </Box>
+      )
+    }
+
+    // Every other surface draws real vector art: the animated SVG ship.
+    if (!('Svg' in elements)) return below
+    const { Svg } = elements
+    // Drawn as an image, which fills the band's width; an interactive frame is
+    // a fixed 150px tall and shrinks the scene to fit. The voyage stamp makes
+    // each flash a new document, so its animation starts from the first frame.
+    return (
+      <Box flexDirection="column">
         <Svg
           key={`lgtm-svg-${f.at}`}
           source={shipSvg(f.lines).replace('<svg ', `<svg data-voyage="${f.at}" `)}
           alt={`LGTM: the LGTM Lines container ship sails past, ${f.lines} lines shipped`}
         />
-      )
-    }
-
-    // The terminal gets the ship in text characters.
-    if (!('Client' in elements)) return next(e)
-    const { Client } = elements
-
-    // The full ship needs 18 rows; a shorter band gets it without the grey tier.
-    const tall = e.props.maxRows >= 18
-    // A new key per flash starts the voyage from the first frame.
-    return (
-      <Client
-        key={`lgtm-${f.at}`}
-        module="./fly.tsx"
-        props={{ file: f.file, lines: f.lines, tall }}
-        width="100%"
-        height={tall ? 18 : 14}
-      />
+        {below}
+      </Box>
     )
   })
 }

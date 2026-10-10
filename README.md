@@ -50,6 +50,10 @@ It watches file edits as they finish, reading only the file name. It never chang
 
 The ship, the glowing containers and the header strip are a tribute to [LGTM (Looks Good to Me)](https://www.youtube.com/watch?v=3TNpOD6bov8), a Claude music video by Degenerative Pixels. Go watch it.
 
+## More mods by Ash
+
+- [villager-hp](https://github.com/Ashley-Pettit/villager-hp): your Claude usage limits as an animated villager health card above the prompt.
+
 ## License
 
 MIT
