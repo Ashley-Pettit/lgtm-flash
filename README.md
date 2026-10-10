@@ -4,21 +4,34 @@ Every time Claude changes your code, the **LGTM Lines** container ship sails acr
 
 ![The LGTM Lines ship at sea, its L, G and T containers glowing on deck](assets/screenshot-wide.png)
 
+## How to install
+
+It takes about a minute. You need [Claude Code](https://claude.com/claude-code) on your computer first.
+
+1. **Open a terminal.** On Windows, open PowerShell. On a Mac, open Terminal.
+2. **Start Claude Code.** Type `claude` and press Enter.
+3. **Copy this line, paste it in, and press Enter:**
+
+   ```
+   /plugin install lgtm-flash --marketplace Ashley-Pettit/lgtm-flash
+   ```
+
+4. **Answer two questions.** For the first, type `y` and press Enter. For the second, just press Enter.
+5. **Try it.** Type `/ship` and press Enter. The ship sails past.
+
+Good to know:
+
+- The line in step 3 only works in the terminal. Pasting it into the Claude desktop app or the Claude website does nothing.
+- You only do this once. After that it also shows up in the Claude desktop app's Code tab.
+- The full animated ship plays in the desktop app's Code tab. In a terminal you get a simpler version drawn in text characters.
+
+## What happens
+
 It sails in fast, and the **L**, **G**, **T** and **M** containers slam onto its moving deck one by one, each with a bounce, a puff of dust and a camera shake. The ship stops, the camera pushes in, and **LOOKS · GOOD · TO · ME** scans in above the containers, each word drawing a glowing line down to its letter.
 
 ![Close-up: LOOKS GOOD TO ME connected to the L G T M containers](assets/screenshot-closeup.png)
 
 The whole thing takes about six seconds, then the prompt is yours again. The header reads **+40,000 LINES THAT I DIDN'T READ**.
-
-## Install
-
-In a Claude Code terminal session:
-
-```
-/plugin install lgtm-flash --marketplace Ashley-Pettit/lgtm-flash
-```
-
-Answer `y` to add the marketplace and press Enter for the user scope. The desktop app's Code tab plays the full animated scene; a terminal plays a text-character version of the ship.
 
 ## Commands
 
