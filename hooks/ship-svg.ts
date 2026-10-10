@@ -244,7 +244,11 @@ export const shipSvg = (lines: number) => `<svg xmlns="http://www.w3.org/2000/sv
   <g>
     <animate attributeName="opacity" values="1;0" begin="${s(ZOOM_IN)}" dur="0.4s" fill="freeze"/>
   <text x="${-PAD + 24}" y="34" font-family="'Cascadia Mono', Consolas, 'Courier New', monospace" font-size="30" font-weight="700" letter-spacing="3" fill="#d9e1e8">L-G-T-M  ·  CHORUS 1  ·  SHIPPING</text>
-  <text x="${W + PAD - 24}" y="34" text-anchor="end" font-family="'Cascadia Mono', Consolas, 'Courier New', monospace" font-size="30" font-weight="700" letter-spacing="3" fill="#d9e1e8"><tspan fill="#3dff8a">+${commas(lines)} LINES</tspan> THAT I DIDN'T READ</text>
+  <!-- the line count swells and shrinks, growing leftwards from its right-hand end -->
+  <g transform="translate(${W + PAD - 24} 34)"><g>
+    <animateTransform attributeName="transform" type="scale" values="1;1.12;1" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" dur="0.9s" repeatCount="indefinite"/>
+  <text x="0" y="0" text-anchor="end" font-family="'Cascadia Mono', Consolas, 'Courier New', monospace" font-size="30" font-weight="700" letter-spacing="3" fill="#d9e1e8"><tspan fill="#3dff8a">+${commas(lines)} LINES</tspan> THAT I DIDN'T READ</text>
+  </g></g>
   <line x1="${-PAD + 24}" y1="48" x2="${W + PAD - 24}" y2="48" stroke="#3a4654" stroke-width="1.5"/>
   </g>
 

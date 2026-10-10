@@ -1,6 +1,6 @@
 {
   "name": "lgtm-flash",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "After every code change, the LGTM Lines container ship sails in, the L G T M containers slam onto its deck, and the camera zooms in on LOOKS GOOD TO ME",
   "author": { "name": "Ash" },
   "license": "MIT",
