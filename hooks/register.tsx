@@ -37,7 +37,14 @@ export const register: Register = on => {
       description: 'Ship it to PROD: launch the LGTM Lines ship',
       argumentHint: '[lines]',
     })
+    await $.command.register({ name: 'testship', description: 'Test the ship: always sails the LGTM Lines ship' })
     return started
+  })
+
+  // /testship always sails, with the usual claim.
+  on('command.run', { command: 'testship' }, async $ => {
+    await launch($, '', SHIP_LINES)
+    return { text: 'Ship launched.' }
   })
 
   // /ship launches the voyage on demand; /ship 120 claims 120 lines.

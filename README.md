@@ -39,6 +39,7 @@ The whole thing takes about six seconds, then the prompt is yours again. The hea
 | --- | --- |
 | `/ship` | Launch the ship any time |
 | `/ship 120` | Launch it claiming 120 lines in the header |
+| `/testship` | Test the ship: it always sails |
 
 It also launches by itself after every Write, Edit, MultiEdit or NotebookEdit that succeeds.
 

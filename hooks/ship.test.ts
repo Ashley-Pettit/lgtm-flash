@@ -54,6 +54,23 @@ for (const surface of ['terminal', 'desktop'] as const) {
   })
 }
 
+test('/testship always sails the ship, and sails it again when run mid-voyage', async ($, on) => {
+  const clock = mock.clock(on)
+  statusRow(on)
+
+  const ui = await $.ui.mount({ plugin: 'lgtm-flash', surface: 'desktop', component: 'AbovePrompt', props: BAND })
+  await $.command.run({ ...SHIP, command: 'testship' })
+  expect(await ui.find({ type: 'Svg' })).toBeDefined()
+
+  // Run again near the end of the first voyage: the second one gets its full time.
+  await clock.advance(5000)
+  await $.command.run({ ...SHIP, command: 'testship' })
+  await clock.advance(5000)
+  expect(await ui.find({ type: 'Svg' })).toBeDefined()
+  await clock.advance(2000)
+  expect(await ui.find({ type: 'Svg' })).toBeUndefined()
+})
+
 test('the ship leaves the band when its voyage is over', async ($, on) => {
   const clock = mock.clock(on)
   statusRow(on)
