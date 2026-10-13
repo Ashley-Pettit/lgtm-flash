@@ -6,24 +6,40 @@ Every time Claude changes your code, the **LGTM Lines** container ship sails acr
 
 ## How to install
 
-It takes about a minute. You need [Claude Code](https://claude.com/claude-code) on your computer first.
+You paste one line. It works even if you only have the Claude desktop app.
 
-1. **Open a terminal.** On Windows, open PowerShell. On a Mac, open Terminal.
-2. **Start Claude Code.** Type `claude` and press Enter.
-3. **Copy this line, paste it in, and press Enter:**
+### Windows
+
+1. Press the Start button, type `powershell` and press Enter. A window opens.
+2. Copy this line, paste it into that window and press Enter:
 
    ```
-   /plugin install lgtm-flash --marketplace Ashley-Pettit/lgtm-flash
+   irm https://raw.githubusercontent.com/Ashley-Pettit/lgtm-flash/prod/install.ps1 | iex
    ```
 
-4. **Answer two questions.** For the first, type `y` and press Enter. For the second, just press Enter.
-5. **Try it.** Type `/ship` and press Enter. The ship sails past.
+3. Wait until it says **Done**. Then close Claude and open it again.
+
+### Mac
+
+1. Press Command and Space, type `terminal` and press Enter. A window opens.
+2. Copy this line, paste it into that window and press Enter:
+
+   ```
+   curl -fsSL https://raw.githubusercontent.com/Ashley-Pettit/lgtm-flash/prod/install.sh | bash
+   ```
+
+3. Wait until it says **Done**. Then close Claude and open it again.
+
+### Try it
+
+In the Claude desktop app, open the Code tab, type `/lgtm` and press Enter. The ship sails past.
 
 Good to know:
 
-- The line in step 3 only works in the terminal. Pasting it into the Claude desktop app or the Claude website does nothing.
-- You only do this once. After that it also shows up in the Claude desktop app's Code tab.
-- The full animated ship plays in the desktop app's Code tab. In a terminal you get a simpler version drawn in text characters.
+- The line gets Claude Code's command-line tool if you don't have it, then adds the mod. It asks no questions and needs no admin password.
+- To get a newer version later, paste the same line again.
+- The full animated ship plays in the desktop app's Code tab. If you run Claude Code in a terminal you get a simpler version drawn in text characters.
+- Already use Claude Code in a terminal? You can type `/plugin install lgtm-flash --marketplace Ashley-Pettit/lgtm-flash` there instead.
 
 ## What happens
 
@@ -37,8 +53,8 @@ The whole thing takes about six seconds, then the prompt is yours again. The hea
 
 | Command | What it does |
 | --- | --- |
-| `/ship` | Launch the ship any time |
-| `/ship 120` | Launch it claiming 120 lines in the header |
+| `/lgtm` | Launch the ship any time |
+| `/lgtm 120` | Launch it claiming 120 lines in the header |
 | `/testship` | Test the ship: it always sails |
 
 It also launches by itself after every Write, Edit, MultiEdit or NotebookEdit that succeeds.

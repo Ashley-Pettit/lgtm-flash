@@ -1,0 +1,11 @@
+{
+  "name": "lgtm-flash",
+  "owner": { "name": "Ash" },
+  "metadata": { "description": "lgtm-flash: the LGTM Lines ship sails past after every code change" },
+  "plugins": [
+    {
+      "name": "lgtm-flash",
+      "source": { "source": "archive", "url": "https://github.com/Ashley-Pettit/lgtm-flash/archive/refs/heads/prod.zip" }
+    }
+  ]
+}

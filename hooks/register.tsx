@@ -9,7 +9,7 @@ const flash = atom({ plugin: 'lgtm-flash', key: 'flash' } as const, null as Flas
 const CODE_CHANGE = /^(Edit|MultiEdit|Write|NotebookEdit)$/
 // The desktop scene (ship-svg.ts) ends on its close-up at 6.2s; the band closes right there.
 const SHOW_MS = 6200
-// What every voyage claims to have shipped; /ship 120 claims 120 instead.
+// What every voyage claims to have shipped; /lgtm 120 claims 120 instead.
 const SHIP_LINES = 40000
 
 type Change = {
@@ -33,7 +33,7 @@ export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     const started = await next(e)
     await $.command.register({
-      name: 'ship',
+      name: 'lgtm',
       description: 'Ship it to PROD: launch the LGTM Lines ship',
       argumentHint: '[lines]',
     })
@@ -47,8 +47,8 @@ export const register: Register = on => {
     return { text: 'Ship launched.' }
   })
 
-  // /ship launches the voyage on demand; /ship 120 claims 120 lines.
-  on('command.run', { command: 'ship' }, async ($, e) => {
+  // /lgtm launches the voyage on demand; /lgtm 120 claims 120 lines.
+  on('command.run', { command: 'lgtm' }, async ($, e) => {
     const n = Number(e.args.trim())
     const lines = e.args.trim() !== '' && Number.isFinite(n) && n >= 0 ? Math.round(n) : SHIP_LINES
     await launch($, '', lines)

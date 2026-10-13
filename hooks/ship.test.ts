@@ -11,9 +11,9 @@ const BAND = {
   view: {},
 }
 
-// /ship as the person types it.
+// /lgtm as the person types it.
 const SHIP = {
-  command: 'ship',
+  command: 'lgtm',
   args: '',
   origin: { kind: 'composer' },
   presentation: { isFullscreen: false, columns: 100 },
@@ -38,7 +38,7 @@ for (const surface of ['terminal', 'desktop'] as const) {
     expect(await ui.find({ type: 'Client' })).toBeUndefined()
   })
 
-  test(`${surface}: /ship draws the ship and keeps what was already in the band`, async ($, on) => {
+  test(`${surface}: /lgtm draws the ship and keeps what was already in the band`, async ($, on) => {
     mock.clock(on)
     statusRow(on)
 
