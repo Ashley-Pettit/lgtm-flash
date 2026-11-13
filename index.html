@@ -62,7 +62,7 @@ a{color:inherit}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* Sign plates: a coloured plate with the inset border line real road signs have */
-.plate{--bg:var(--paper);--fg:var(--ink);background:var(--bg);color:var(--fg);border-radius:22px;box-shadow:inset 0 0 0 8px var(--bg),inset 0 0 0 12px var(--fg);padding:clamp(26px,3.4vw,44px)}
+.plate{--bg:var(--paper);--fg:var(--ink);background:var(--bg);color:var(--fg);border-radius:22px;box-shadow:inset 0 0 0 8px var(--bg),inset 0 0 0 12px var(--fg);padding:clamp(22px,2.6vw,34px)}
 .plate--green{--bg:var(--guide);--fg:#fff}
 .plate--brown{--bg:var(--tourist);--fg:#fff}
 .plate--blue{--bg:var(--service);--fg:#fff}
@@ -74,19 +74,40 @@ a{color:inherit}
 .btn:hover{transform:translateY(-1px)}
 .btn:active{transform:translateY(1px)}
 
+/* Soundtrack strip */
+.sound{background:var(--ink);color:#fff}
+.sound-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;padding-top:9px;padding-bottom:9px}
+.sound-q{margin:0;display:flex;align-items:center;gap:.7rem;font-weight:600;font-size:1.02rem;line-height:1.35}
+.sound-q a{color:var(--hivis);font-weight:800}
+.sound-icon{flex:none;width:30px;height:24px;display:flex;align-items:flex-end;gap:3px}
+.sound-icon i{width:6px;height:40%;background:var(--hivis);border-radius:2px}
+.sound-icon i:nth-child(2){height:70%}
+.sound-icon i:nth-child(3){height:100%}
+.sound-icon i:nth-child(4){height:55%}
+.sound.playing .sound-icon i{animation:eq .9s ease-in-out infinite alternate}
+.sound.playing .sound-icon i:nth-child(2){animation-delay:-.3s}
+.sound.playing .sound-icon i:nth-child(3){animation-delay:-.6s}
+.sound.playing .sound-icon i:nth-child(4){animation-delay:-.15s}
+@keyframes eq{from{height:20%}to{height:100%}}
+.sound-btns{display:flex;flex-wrap:wrap;gap:8px}
+.sbtn{font:inherit;font-weight:800;font-size:.95rem;line-height:1;padding:.7em 1em .6em;border-radius:10px;border:3px solid #fff;background:transparent;color:#fff;cursor:pointer}
+.sbtn--yes{background:var(--hivis);border-color:var(--hivis);color:var(--ink)}
+.sbtn:hover{transform:translateY(-1px)}
+.sound :focus-visible{outline-color:var(--hivis)}
+
 /* Hero */
-.hero{background:var(--hivis);border-bottom:8px solid var(--ink);padding:clamp(32px,6vw,76px) 0 clamp(36px,6vw,80px)}
+.hero{background:var(--hivis);border-bottom:8px solid var(--ink);padding:clamp(22px,3.6vw,44px) 0 clamp(26px,3.8vw,48px)}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
-h1{font-weight:900;font-size:clamp(3.6rem,10.4vw,8.4rem);line-height:.84;letter-spacing:-.04em;margin:0 0 .3em}
-.lede{font-size:clamp(1.2rem,1.9vw,1.5rem);line-height:1.35;font-weight:500;max-width:28ch;margin:0 0 1.6rem}
-.conditions{border-left:8px solid var(--ink);padding:.2em 0 .2em 1rem;margin:0 0 1.8rem;max-width:34ch}
+h1{font-weight:900;font-size:clamp(3.6rem,10.4vw,8.4rem);line-height:.84;letter-spacing:-.04em;margin:0 0 .22em}
+.lede{font-size:clamp(1.2rem,1.9vw,1.5rem);line-height:1.35;font-weight:500;max-width:28ch;margin:0 0 1.1rem}
+.conditions{border-left:8px solid var(--ink);padding:.15em 0 .15em 1rem;margin:0 0 1.3rem;max-width:34ch}
 .conditions small{display:block;font-size:.95rem;font-weight:700}
 .conditions p{transition:opacity .2s}
 .conditions p.swap{opacity:0}
 .conditions p{margin:0;font-size:clamp(1.25rem,2.1vw,1.6rem);line-height:1.25;font-weight:800}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
 
-.gauge-plate{text-align:center;padding-bottom:clamp(24px,3vw,36px)}
+.gauge-plate{text-align:center}
 .gauge-title{margin:0 0 .4rem;font-weight:900;font-size:clamp(1.25rem,2.3vw,1.7rem);letter-spacing:-.01em;line-height:1.1}
 .gauge{display:block;width:100%;height:auto;max-width:520px;margin:0 auto}
 .gauge text{font-family:"Overpass",sans-serif;font-weight:900}
@@ -98,16 +119,16 @@ h1{font-weight:900;font-size:clamp(3.6rem,10.4vw,8.4rem);line-height:.84;letter-
 .chip{display:inline-block;margin-top:.7rem;font-weight:900;font-size:1.05rem;padding:.42em .9em .3em;border-radius:999px;border:3px solid var(--ink);background:var(--seg-3);color:var(--ink);transition:background-color .4s}
 
 /* Sections */
-.section{padding:clamp(48px,7vw,88px) 0 0}
-.section-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.4rem 2rem;margin-bottom:1.2rem}
+.section{padding:clamp(30px,4.2vw,52px) 0 0}
+.section-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.3rem 2rem;margin-bottom:.8rem}
 h2{font-weight:900;font-size:clamp(2rem,3.8vw,2.8rem);line-height:1;letter-spacing:-.025em;margin:0}
 .section-head p{margin:0;max-width:46ch;color:#262626}
 .live-dot{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:var(--bad);margin-right:.45em;vertical-align:.05em;animation:pulse 1.6s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.25}}
 
 /* Readings: one big distance-board style plate */
-.readings{padding-top:clamp(16px,2vw,24px);padding-bottom:clamp(16px,2vw,24px)}
-.row{display:grid;grid-template-columns:minmax(0,1fr) 130px minmax(9.5ch,auto) 7.5ch;align-items:center;gap:6px 22px;padding:16px 4px;border-top:2px solid var(--ink)}
+.readings{padding-top:clamp(10px,1.4vw,16px);padding-bottom:clamp(10px,1.4vw,16px)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 130px minmax(9.5ch,auto) 7.5ch;align-items:center;gap:6px 22px;padding:12px 4px;border-top:2px solid var(--ink)}
 .row:first-child{border-top:0}
 .r-label strong{display:block;font-weight:800;font-size:1.12rem;line-height:1.25}
 .r-label span{display:block;font-size:.95rem;line-height:1.35;color:#3d3d3d}
@@ -121,8 +142,8 @@ h2{font-weight:900;font-size:clamp(2rem,3.8vw,2.8rem);line-height:1;letter-spaci
 .r-delta.flat{color:#555}
 
 /* Most likely causes: ranked leaderboard */
-.causes{list-style:none;margin:0;padding-top:clamp(14px,2vw,22px);padding-bottom:clamp(14px,2vw,22px)}
-.cause{display:grid;grid-template-columns:2.6rem minmax(0,1fr) 7.2rem;gap:6px 18px;align-items:center;padding:15px 4px;border-top:2px solid var(--ink);background:var(--paper);position:relative}
+.causes{list-style:none;margin:0;padding-top:clamp(10px,1.4vw,16px);padding-bottom:clamp(10px,1.4vw,16px)}
+.cause{display:grid;grid-template-columns:2.6rem minmax(0,1fr) 7.2rem;gap:6px 18px;align-items:center;padding:12px 4px;border-top:2px solid var(--ink);background:var(--paper);position:relative}
 .cause:first-child{border-top-color:transparent}
 .rank{width:2.5rem;height:2.5rem;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:900;font-size:1.15rem;padding-top:.14em}
 .c-body strong{display:block;font-weight:800;font-size:1.16rem;line-height:1.25}
@@ -149,27 +170,27 @@ h2{font-weight:900;font-size:clamp(2rem,3.8vw,2.8rem);line-height:1;letter-spaci
 .frac > span:first-child{border-bottom:2px solid currentColor;padding-bottom:.08em}
 .frac > span:last-child{padding-top:.08em}
 sup{font-size:.6em;line-height:0}
-.vars{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px 32px;margin:1.6rem 0 0;padding:1.4rem 0 0;border-top:2px solid var(--ink)}
+.vars{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px 32px;margin:1.2rem 0 0;padding:1.1rem 0 0;border-top:2px solid var(--ink)}
 .vars div{display:flex;gap:.8rem;align-items:baseline}
 .vars dt{font-family:"STIX Two Text",Georgia,serif;font-style:italic;font-size:1.5rem;line-height:1;min-width:1.2em}
 .vars dd{margin:0}
-.fine{margin:1.2rem 0 0;font-size:1rem;font-weight:700}
+.fine{margin:1rem 0 0;font-size:1rem;font-weight:700}
 .fine a{font-weight:800}
 
 /* Incident board (VMS trailer sign) */
-.vms{background:#000;border-radius:14px;border:12px solid #2a2a2a;box-shadow:0 0 0 3px var(--ink);padding:clamp(18px,3vw,32px) clamp(16px,3vw,36px);position:relative;overflow:hidden}
+.vms{background:#000;border-radius:14px;border:12px solid #2a2a2a;box-shadow:0 0 0 3px var(--ink);padding:clamp(12px,2.2vw,24px) clamp(16px,3vw,36px);position:relative;overflow:hidden}
 .vms::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,176,0,.10) 1.2px,transparent 1.6px);background-size:7px 7px;pointer-events:none}
-.vms-text{position:relative;margin:0;min-height:3.6em;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Doto",ui-monospace,monospace;font-weight:900;text-transform:uppercase;color:var(--led);text-shadow:0 0 6px rgba(255,176,0,.75),0 0 18px rgba(255,140,0,.35);font-size:clamp(1.25rem,3.3vw,2.4rem);line-height:1.2;letter-spacing:.04em;transition:opacity .18s}
+.vms-text{position:relative;margin:0;min-height:3.4em;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Doto",ui-monospace,monospace;font-weight:900;text-transform:uppercase;color:var(--led);text-shadow:0 0 6px rgba(255,176,0,.75),0 0 18px rgba(255,140,0,.35);font-size:clamp(1.25rem,3.3vw,2.4rem);line-height:1.2;letter-spacing:.04em;transition:opacity .18s}
 .vms-text.blank{opacity:0}
 .lamps{display:flex;justify-content:space-between;padding:0 clamp(24px,12%,140px);margin-bottom:-6px;position:relative;z-index:1}
 .lamps span{width:30px;height:30px;border-radius:50%;background:#5a3d00;border:5px solid #2a2a2a;box-shadow:0 0 0 3px var(--ink)}
 .lamps span:first-child{animation:lamp 1.3s steps(1) infinite}
 .lamps span:last-child{animation:lamp 1.3s steps(1) -.65s infinite}
 @keyframes lamp{0%{background:var(--led);box-shadow:0 0 0 3px var(--ink),0 0 18px 4px rgba(255,176,0,.8)}50%{background:#5a3d00;box-shadow:0 0 0 3px var(--ink)}}
-.log{list-style:none;margin:1rem 0 0;padding:0}
+.log{list-style:none;margin:.7rem 0 0;padding:0}
 .log li.fresh{animation:fresh 1.8s ease-out}
 @keyframes fresh{from{background:rgba(255,209,0,.85)}to{background:transparent}}
-.log li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:10px 2px;border-top:2px solid #b9bbbe}
+.log li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:8px 2px;border-top:2px solid #b9bbbe}
 .log li:first-child{border-top:0}
 .log time{font-weight:700;font-size:.95rem;color:#3d3d3d}
 .log .effect{font-weight:800;font-size:.95rem;white-space:nowrap}
@@ -177,7 +198,7 @@ sup{font-size:.6em;line-height:0}
 .log .effect.good{color:var(--good)}
 
 /* Still from the LGTM video */
-.still{margin:0 0 clamp(20px,3vw,32px)}
+.still{margin:0 0 clamp(14px,2vw,22px)}
 .still picture,.still img{display:block;width:100%;height:auto}
 .still img{border-radius:16px;border:4px solid var(--ink);background:#0d0d0d}
 .still figcaption{margin-top:.5rem;font-size:.85rem;color:#4a4a4a;text-align:right}
@@ -195,9 +216,9 @@ sup{font-size:.6em;line-height:0}
 .tiles{display:flex;gap:10px;margin:.4rem 0 .2rem}
 .tiles span{flex:1;max-width:84px;aspect-ratio:1/1.1;display:grid;place-items:center;background:#fff;color:var(--tourist);border-radius:10px;font-weight:900;font-size:clamp(2rem,4vw,2.9rem);line-height:1;padding-top:.12em;box-shadow:inset 0 -10px 0 rgba(107,62,38,.14)}
 .tourist .btn{align-self:flex-start;margin-top:.4rem;background:#fff;color:var(--tourist);border-color:#fff}
-.guide h2{margin-bottom:1rem}
+.guide h2{margin-bottom:.6rem}
 .guide ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,4vw,56px)}
-.guide li{display:flex;gap:1rem;align-items:center;padding:.85rem 0;border-top:2px solid rgba(255,255,255,.55);font-weight:700;font-size:1.12rem;line-height:1.3}
+.guide li{display:flex;gap:1rem;align-items:center;padding:.65rem 0;border-top:2px solid rgba(255,255,255,.55);font-weight:700;font-size:1.12rem;line-height:1.3}
 .guide li:nth-child(-n+2){border-top:0}
 .guide svg{flex:none;width:34px;height:34px}
 
@@ -213,13 +234,13 @@ sup{font-size:.6em;line-height:0}
 .preview-meta span:first-child{color:#5a5a5a}
 .preview-meta strong{font-weight:800;font-size:1rem}
 .preview-meta span:last-child{color:#3d3d3d}
-.share-msg{margin:0 0 1.4rem;padding:1rem 1.2rem;border-radius:12px;background:rgba(255,255,255,.12);border:2px dashed rgba(255,255,255,.7);font-weight:700;font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.4;max-width:60ch}
+.share-msg{margin:0 0 1.1rem;padding:1rem 1.2rem;border-radius:12px;background:rgba(255,255,255,.12);border:2px dashed rgba(255,255,255,.7);font-weight:700;font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.4;max-width:60ch}
 .share-btns{display:flex;flex-wrap:wrap;gap:10px}
 .share-btns .btn{color:#fff;border-color:#fff}
 .share-btns .btn--light{color:var(--service)}
 
 /* Footer */
-footer{padding:clamp(48px,7vw,80px) 0 40px}
+footer{padding:clamp(30px,4.2vw,48px) 0 28px}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;align-items:flex-end;font-size:.98rem;color:#2b2b2b}
 .foot p{margin:0;max-width:62ch}
 .build{font-size:.8rem;color:#6b6b6b}
@@ -252,18 +273,29 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
   .bar{grid-area:bar;margin-top:.5rem}
   .c-odds{grid-area:odds}
   .log time{grid-column:1 / -1}
-  .btn{font-size:.98rem}
+  .btn{font-size:.95rem;padding:.75em .95em .65em}
+  .hero-actions{gap:10px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   #needle,.chip,.vms-text,.toast,.bar i,.conditions p{transition:none}
-  .live-dot,.lamps span,.log li.fresh{animation:none}
+  .live-dot,.lamps span,.log li.fresh,.sound.playing .sound-icon i{animation:none}
   .lamps span:first-child{background:var(--led)}
   .btn:hover,.btn:active{transform:none}
 }
 </style>
 </head>
 <body>
+
+<div class="sound" id="sound" role="region" aria-label="Soundtrack">
+  <div class="wrap sound-in">
+    <p class="sound-q"><span class="sound-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="soundText">Soundtrack: <a href="#lgtm">LGTM (Looks Good to Me)</a> by Degenerative Pixels. Play it?</span></p>
+    <div class="sound-btns" id="soundBtns">
+      <button class="sbtn sbtn--yes" type="button" data-act="play">Yes, play it</button>
+      <button class="sbtn" type="button" data-act="no">No thanks</button>
+    </div>
+  </div>
+</div>
 
 <header class="hero">
   <div class="wrap hero-grid">
@@ -836,6 +868,71 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
     ns.addEventListener('click', doShare);
     $('#heroShare').addEventListener('click', e => { e.preventDefault(); doShare(); });
   }
+
+  /* ---------- Soundtrack (plays the LGTM video embedded further down) ---------- */
+  const SONG = '<a href="#lgtm">LGTM (Looks Good to Me)</a> by Degenerative Pixels';
+  const STATES = {
+    ask:     [`Soundtrack: ${SONG}. Play it?`, [['play', 'Yes, play it', true], ['no', 'No thanks']]],
+    off:     [`Soundtrack: ${SONG}`, [['play', 'Play it', true]]],
+    loading: [`Loading the soundtrack`, []],
+    playing: [`Now playing: ${SONG}`, [['pause', 'Pause', true], ['video', 'Watch the video']]],
+    paused:  [`Paused: ${SONG}`, [['resume', 'Play', true], ['video', 'Watch the video']]],
+    ended:   [`That was ${SONG}`, [['resume', 'Play again', true]]],
+    blocked: [`Your browser wants you to press play yourself. It is on the video below.`, [['video', 'Go to the video', true]]]
+  };
+  const sound = $('#sound'), soundText = $('#soundText'), soundBtns = $('#soundBtns');
+  let player = null, ytLoading = null, soundState = 'ask';
+  function soundUI(state) {
+    soundState = state;
+    const [text, btns] = STATES[state];
+    soundText.innerHTML = text;
+    soundBtns.innerHTML = btns.map(([act, label, main]) => `<button class="sbtn${main ? ' sbtn--yes' : ''}" type="button" data-act="${act}">${label}</button>`).join('');
+    sound.classList.toggle('playing', state === 'playing');
+  }
+  function loadYT() {
+    if (window.YT && YT.Player) return Promise.resolve();
+    if (!ytLoading) ytLoading = new Promise(res => {
+      window.onYouTubeIframeAPIReady = res;
+      const sc = document.createElement('script');
+      sc.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(sc);
+    });
+    return ytLoading;
+  }
+  async function playSoundtrack() {
+    if (player && player.playVideo) { player.playVideo(); return; }
+    soundUI('loading');
+    try { await loadYT(); } catch { soundUI('blocked'); return; }
+    const screen = document.querySelector('.screen');
+    screen.innerHTML = '<div id="ytPlayer"></div>';
+    player = new YT.Player('ytPlayer', {
+      host: 'https://www.youtube-nocookie.com',
+      videoId: '3TNpOD6bov8',
+      width: '100%', height: '100%',
+      playerVars: { autoplay: 1, rel: 0, playsinline: 1 },
+      events: {
+        onReady: e => {
+          e.target.unMute(); e.target.setVolume(85); e.target.playVideo();
+          // Some phones only allow sound after a tap on the video itself
+          setTimeout(() => { if (soundState === 'loading') soundUI('blocked'); }, 3000);
+        },
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.PLAYING) soundUI('playing');
+          else if (e.data === YT.PlayerState.PAUSED) soundUI('paused');
+          else if (e.data === YT.PlayerState.ENDED) soundUI('ended');
+        }
+      }
+    });
+  }
+  soundBtns.addEventListener('click', e => {
+    const act = e.target.closest('button')?.dataset.act;
+    if (act === 'play') playSoundtrack();
+    else if (act === 'no') { soundUI('off'); try { sessionStorage.setItem('awc-sound', 'off'); } catch {} }
+    else if (act === 'pause') player && player.pauseVideo();
+    else if (act === 'resume') player && player.playVideo();
+    else if (act === 'video') document.getElementById('lgtm').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+  });
+  try { if (sessionStorage.getItem('awc-sound') === 'off') soundUI('off'); } catch {}
 
   /* ---------- Go ---------- */
   renderDoom();
