@@ -11,7 +11,8 @@ Every number is made up and simulated in the browser. Nothing here is a real pre
 - `index.html` is the whole site: one file, no build step, no tracking.
 - This lives on the `gh-pages` branch of lgtm-flash, so the mod's installer (which downloads `prod`) never picks it up.
 - Pushing to `gh-pages` republishes the site. GitHub Pages stamps the short commit id into the footer ("Build abc1234").
-- `og.png` is the link preview image. Edit `tools/og.html`, then run `python3 tools/render.py` to re-render it and the home screen icon.
+- `og.png` is the link preview image. Edit `tools/og.html`, then run `python3 tools/render.py`.
+- Icons (favicon.ico, favicon.svg, PNGs, home screen icon) come from `python3 tools/icons.py`.
 
 ## Credits
 
