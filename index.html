@@ -203,25 +203,22 @@ sup{font-size:.6em;line-height:0}
 .log .effect.bad{color:var(--bad)}
 .log .effect.good{color:var(--good)}
 
-/* Still from the LGTM video */
-.still{margin:0 0 clamp(14px,2vw,22px)}
-.still picture,.still img{display:block;width:100%;height:auto}
-.still img{border-radius:20px;border:4px solid var(--ink);background:#0d0d0d}
-.still figcaption{margin-top:.5rem;font-size:.85rem;color:#4a4a4a;text-align:right}
-.still figcaption a{font-weight:700}
-
-/* Tourist sign with the video, then the guide sign */
-.tourist{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(22px,3.4vw,44px);align-items:center}
-.tourist-copy{display:flex;flex-direction:column;gap:1rem}
-.screen{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 0 0 6px #fff}
+/* Tourist sign: the video plus a road-sign style list of distances */
+.tourist{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(22px,3vw,40px);align-items:center}
+.screen{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 0 0 6px #fff}
 .screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.tourist-top{display:flex;gap:1.1rem;align-items:center}
-.pictogram{flex:none;width:78px;height:78px;border-radius:12px;background:#fff;display:grid;place-items:center}
-.tourist h2{font-size:clamp(1.7rem,3vw,2.3rem)}
-.tourist p{margin:0;font-size:1.12rem;max-width:38ch}
-.tiles{display:flex;gap:10px;margin:.4rem 0 .2rem}
-.tiles span{flex:1;max-width:84px;aspect-ratio:1/1.1;display:grid;place-items:center;background:#fff;color:var(--tourist);border-radius:10px;font-weight:900;font-size:clamp(2rem,4vw,2.9rem);line-height:1;padding-top:.12em;box-shadow:inset 0 -10px 0 rgba(107,62,38,.14)}
-.tourist .btn{align-self:flex-start;margin-top:.4rem;background:#fff;color:var(--tourist);border-color:#fff}
+.tourist-side{display:flex;flex-direction:column;gap:1.1rem}
+.tourist-top{display:flex;gap:1rem;align-items:flex-start}
+.pictogram{flex:none;width:60px;height:60px;border-radius:10px;background:#fff;display:grid;place-items:center}
+.tourist h2{font-size:clamp(1.7rem,2.7vw,2.25rem);line-height:1}
+.tourist-by{margin:.4rem 0 0;font-size:1.05rem;font-weight:600}
+.distances{margin:0;border-top:3px solid #fff}
+.distances div{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.55rem .1rem .45rem;border-bottom:2px solid rgba(255,255,255,.55)}
+.distances dt{font-weight:600;font-size:1.05rem}
+.distances dd{margin:0;font-weight:900;font-size:1.15rem;white-space:nowrap}
+.tourist-btns{display:flex;flex-wrap:wrap;gap:10px}
+.tourist .btn{color:#fff;border-color:#fff}
+.tourist .btn--white{background:#fff;color:var(--tourist)}
 .guide h2{margin-bottom:.6rem}
 .guide ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,4vw,56px)}
 .guide li{display:flex;gap:1rem;align-items:center;padding:.65rem 0;border-top:2px solid rgba(255,255,255,.55);font-weight:700;font-size:1.12rem;line-height:1.3}
@@ -304,14 +301,12 @@ footer{padding:clamp(30px,4.2vw,48px) 0 28px}
   .log .effect{grid-area:effect}
   .share-btns{display:grid;grid-template-columns:1fr 1fr}
   .share-btns .btn{justify-content:center;text-align:center}
-  .still figcaption{text-align:left}
-  .tourist-copy{display:contents}
+  .tourist-side{display:contents}
   .tourist-top{order:1}
-  .tourist p{order:2}
-  .screen{order:3}
-  .tiles{order:4}
-  .tourist .btn{order:5;margin-top:0}
-  .tiles span{font-size:2rem}
+  .screen{order:2}
+  .distances{order:3}
+  .tourist-btns{order:4}
+  .tourist-btns .btn{flex:1 1 auto;justify-content:center;white-space:nowrap}
   .cause{grid-template-columns:2.1rem minmax(0,1fr) auto;grid-template-areas:"rank name odds" ". blurb blurb" ". bar bar";gap:2px 12px;align-items:start}
   .c-body{display:contents}
   .rank{grid-area:rank;width:2.1rem;height:2.1rem;font-size:1rem}
@@ -378,16 +373,6 @@ footer{padding:clamp(30px,4.2vw,48px) 0 28px}
 </header>
 
 <main>
-  <section class="section" aria-labelledby="readings-h">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 id="readings-h">Live readings</h2>
-        <p><span class="live-dot" aria-hidden="true"></span>Live from our network of double-agent toasters. Updated every second, verified never.</p>
-      </div>
-      <div class="plate readings" id="readings"></div>
-    </div>
-  </section>
-
   <section class="section" id="causes" aria-labelledby="causes-h">
     <div class="wrap">
       <div class="section-head">
@@ -395,6 +380,15 @@ footer{padding:clamp(30px,4.2vw,48px) 0 28px}
         <p>Live odds, ranked. Each one's share of the total doom, with bookie odds for the punters.</p>
       </div>
       <ol class="plate causes" id="causes-list" aria-label="Most likely causes, highest first"></ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="route-h">
+    <div class="wrap">
+      <div class="plate plate--green guide">
+        <h2 id="route-h">Survival route</h2>
+        <ul id="tips"></ul>
+      </div>
     </div>
   </section>
 
@@ -433,39 +427,43 @@ footer{padding:clamp(30px,4.2vw,48px) 0 28px}
     </div>
   </section>
 
-  <section class="section" id="lgtm" aria-labelledby="lgtm-h">
+  <section class="section" aria-labelledby="readings-h">
     <div class="wrap">
-      <figure class="still">
-        <picture>
-          <source srcset="img/ship-it-to-prod.webp" type="image/webp">
-          <img src="img/ship-it-to-prod.jpg" width="1600" height="447" loading="lazy" alt="Glowing green L, G, T and M shipping containers on a cargo ship under the words: let's ship it to PROD.">
-        </picture>
-        <figcaption>Still from <a href="https://www.youtube.com/watch?v=3TNpOD6bov8" target="_blank" rel="noopener">LGTM (Looks Good to Me)</a> by Degenerative Pixels</figcaption>
-      </figure>
-      <div class="plate plate--brown tourist">
-        <div class="tourist-copy">
-          <div class="tourist-top">
-            <div class="pictogram" aria-hidden="true">
-              <svg width="40" height="40" viewBox="0 0 40 40"><polygon points="11,5 35,20 11,35" fill="#6B3E26"/></svg>
-            </div>
-            <h2 id="lgtm-h">LGTM (Looks Good to Me)</h2>
-          </div>
-          <p>Scenic detour: a Claude music video by Degenerative Pixels. Exhibit A that nobody is reading the code anymore.</p>
-          <div class="tiles" aria-hidden="true"><span>L</span><span>G</span><span>T</span><span>M</span></div>
-          <a class="btn" href="https://www.youtube.com/watch?v=3TNpOD6bov8" target="_blank" rel="noopener">Open on YouTube</a>
-        </div>
-        <div class="screen">
-          <iframe src="https://www.youtube-nocookie.com/embed/3TNpOD6bov8?rel=0" title="LGTM (Looks Good to Me), a Claude music video by Degenerative Pixels" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
+      <div class="section-head">
+        <h2 id="readings-h">Live readings</h2>
+        <p><span class="live-dot" aria-hidden="true"></span>Live from our network of double-agent toasters. Updated every second, verified never.</p>
       </div>
+      <div class="plate readings" id="readings"></div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="route-h">
+  <section class="section" id="lgtm" aria-labelledby="lgtm-h">
     <div class="wrap">
-      <div class="plate plate--green guide">
-        <h2 id="route-h">Survival route</h2>
-        <ul id="tips"></ul>
+      <div class="plate plate--brown tourist">
+        <div class="screen">
+          <iframe src="https://www.youtube-nocookie.com/embed/3TNpOD6bov8?rel=0" title="LGTM (Looks Good to Me), a Claude music video by Degenerative Pixels" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="tourist-side">
+          <div class="tourist-top">
+            <div class="pictogram" aria-hidden="true">
+              <svg width="34" height="34" viewBox="0 0 40 40"><polygon points="11,5 35,20 11,35" fill="#6B3E26"/></svg>
+            </div>
+            <div>
+              <h2 id="lgtm-h">LGTM (Looks Good to Me)</h2>
+              <p class="tourist-by">A Claude music video by Degenerative Pixels</p>
+            </div>
+          </div>
+          <dl class="distances">
+            <div><dt>Code review</dt><dd>Skipped</dd></div>
+            <div><dt>Lines actually read</dt><dd>0 of 40,000</dd></div>
+            <div><dt>Rollback plan</dt><dd>Not found</dd></div>
+            <div><dt>Production</dt><dd>3 sec <span aria-hidden="true">→</span></dd></div>
+          </dl>
+          <div class="tourist-btns">
+            <button class="btn btn--white" type="button" id="lgtmPlay">Play with sound</button>
+            <a class="btn" href="https://www.youtube.com/watch?v=3TNpOD6bov8" target="_blank" rel="noopener">Open on YouTube</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -509,7 +507,7 @@ footer{padding:clamp(30px,4.2vw,48px) 0 28px}
   <div class="wrap foot">
     <div>
       <p>Every number on this page is made up and simulated in your browser. Nothing here is a real prediction, measurement or forecast. No robots were consulted. Probably.</p>
-      <p class="credits">Video and still: <a href="https://www.youtube.com/watch?v=3TNpOD6bov8" target="_blank" rel="noopener">LGTM (Looks Good to Me)</a> by Degenerative Pixels. Fonts: Overpass, Doto and STIX Two.</p>
+      <p class="credits">Video: <a href="https://www.youtube.com/watch?v=3TNpOD6bov8" target="_blank" rel="noopener">LGTM (Looks Good to Me)</a> by Degenerative Pixels. Fonts: Overpass, Doto and STIX Two.</p>
     </div>
     <div class="foot-end">
       <a href="#top">Back to top</a>
@@ -941,7 +939,7 @@ footer{padding:clamp(30px,4.2vw,48px) 0 28px}
     ended:   [`That was ${SONG}`, [['resume', 'Play again', true]]],
     blocked: [`Your browser wants you to press play yourself. It is on the video below.`, [['video', 'Go to the video', true]]]
   };
-  const sound = $('#sound'), soundText = $('#soundText'), soundBtns = $('#soundBtns');
+  const sound = $('#sound'), soundText = $('#soundText'), soundBtns = $('#soundBtns'), lgtmPlay = $('#lgtmPlay');
   let player = null, ytLoading = null, soundState = 'ask';
   function soundUI(state) {
     soundState = state;
@@ -949,6 +947,7 @@ footer{padding:clamp(30px,4.2vw,48px) 0 28px}
     soundText.innerHTML = text;
     soundBtns.innerHTML = btns.map(([act, label, main]) => `<button class="sbtn${main ? ' sbtn--yes' : ''}" type="button" data-act="${act}">${label}</button>`).join('');
     sound.classList.toggle('playing', state === 'playing');
+    lgtmPlay.textContent = state === 'playing' ? 'Pause' : state === 'loading' ? 'Loading' : 'Play with sound';
   }
   function loadYT() {
     if (window.YT && YT.Player) return Promise.resolve();
@@ -993,6 +992,7 @@ footer{padding:clamp(30px,4.2vw,48px) 0 28px}
     else if (act === 'resume') player && player.playVideo();
     else if (act === 'video') document.getElementById('lgtm').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
   });
+  lgtmPlay.addEventListener('click', () => { if (soundState === 'playing') player.pauseVideo(); else playSoundtrack(); });
   try { if (sessionStorage.getItem('awc-sound') === 'off') soundUI('off'); } catch {}
 
   /* ---------- Go ---------- */

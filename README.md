@@ -17,5 +17,4 @@ Every number is made up and simulated in the browser. Nothing here is a real pre
 ## Credits
 
 - Featured video: [LGTM (Looks Good to Me)](https://www.youtube.com/watch?v=3TNpOD6bov8), a Claude music video by Degenerative Pixels.
-- Banner still (`img/ship-it-to-prod`) is from the same video, credited on the page.
 - Fonts: Overpass, Doto and STIX Two Text, under the SIL Open Font License (see `fonts/`).
