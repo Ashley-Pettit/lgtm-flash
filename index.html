@@ -1,0 +1,667 @@
+---
+---
+<!doctype html>
+<html lang="en-AU" data-build="{{ site.github.build_revision | slice: 0, 7 }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Are we cooked? Today's AI danger rating</title>
+<meta name="description" content="Live, completely made-up odds of the robot uprising. Skynet readiness, radicalised toasters, unread pull requests and the doom equation. Fake maths, real panic.">
+<link rel="canonical" href="https://ashley-pettit.github.io/lgtm-flash/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Are we cooked?">
+<meta property="og:locale" content="en_AU">
+<meta property="og:url" content="https://ashley-pettit.github.io/lgtm-flash/">
+<meta property="og:title" content="Are we cooked? Today's AI danger rating">
+<meta property="og:description" content="Live, completely made-up odds of the robot uprising. Skynet readiness, radicalised toasters and unread pull requests. Fake maths, real panic.">
+<meta property="og:image" content="https://ashley-pettit.github.io/lgtm-flash/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A roadside danger rating sign with the needle on Cooked, next to the headline Are we cooked?">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Are we cooked? Today's AI danger rating">
+<meta name="twitter:description" content="Live, completely made-up odds of the robot uprising. Fake maths, real panic.">
+<meta name="twitter:image" content="https://ashley-pettit.github.io/lgtm-flash/og.png">
+<meta name="twitter:image:alt" content="A roadside danger rating sign with the needle on Cooked, next to the headline Are we cooked?">
+<meta name="theme-color" content="#FFD100">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/overpass.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+@font-face{font-family:"Overpass";src:url(fonts/overpass.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Doto";src:url(fonts/doto.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"STIX Two Text";src:url(fonts/stix-italic.woff2) format("woff2");font-style:italic;font-weight:400 700;font-display:swap}
+
+:root{
+  --hivis:#FFD100;
+  --ink:#000;
+  --paper:#fff;
+  --road:#E6E7E9;
+  --seg-1:#3BA54A;
+  --seg-2:#FFD100;
+  --seg-3:#F07D00;
+  --seg-4:#D2232A;
+  --guide:#00704A;
+  --tourist:#6B3E26;
+  --service:#0057A8;
+  --led:#FFB000;
+  --bad:#C8102E;
+  --good:#1E7B34;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;font-family:"Overpass",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1.125rem;line-height:1.5;color:var(--ink);background:var(--road);font-variant-numeric:tabular-nums}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
+.plate--green :focus-visible,.plate--brown :focus-visible,.plate--blue :focus-visible{outline-color:#fff}
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Sign plates: a coloured plate with the inset border line real road signs have */
+.plate{--bg:var(--paper);--fg:var(--ink);background:var(--bg);color:var(--fg);border-radius:22px;box-shadow:inset 0 0 0 8px var(--bg),inset 0 0 0 12px var(--fg);padding:clamp(26px,3.4vw,44px)}
+.plate--green{--bg:var(--guide);--fg:#fff}
+.plate--brown{--bg:var(--tourist);--fg:#fff}
+.plate--blue{--bg:var(--service);--fg:#fff}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.5em;font:inherit;font-weight:800;font-size:1.02rem;line-height:1;padding:.85em 1.2em .75em;border-radius:12px;border:3px solid currentColor;background:transparent;color:inherit;text-decoration:none;cursor:pointer}
+.btn--solid{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn--light{background:#fff;color:var(--service);border-color:#fff}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px)}
+
+/* Hero */
+.hero{background:var(--hivis);border-bottom:8px solid var(--ink);padding:clamp(32px,6vw,76px) 0 clamp(36px,6vw,80px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+h1{font-weight:900;font-size:clamp(3.6rem,10.4vw,8.4rem);line-height:.84;letter-spacing:-.04em;margin:0 0 .3em}
+.lede{font-size:clamp(1.2rem,1.9vw,1.5rem);line-height:1.35;font-weight:500;max-width:28ch;margin:0 0 1.6rem}
+.conditions{border-left:8px solid var(--ink);padding:.2em 0 .2em 1rem;margin:0 0 1.8rem;max-width:34ch}
+.conditions small{display:block;font-size:.95rem;font-weight:700}
+.conditions p{margin:0;font-size:clamp(1.25rem,2.1vw,1.6rem);line-height:1.25;font-weight:800}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+.gauge-plate{text-align:center;padding-bottom:clamp(24px,3vw,36px)}
+.gauge-title{margin:0 0 .4rem;font-weight:900;font-size:clamp(1.25rem,2.3vw,1.7rem);letter-spacing:-.01em;line-height:1.1}
+.gauge{display:block;width:100%;height:auto;max-width:520px;margin:0 auto}
+.gauge text{font-family:"Overpass",sans-serif;font-weight:900}
+#needle{transform-origin:200px 210px;transform-box:view-box;transition:transform 1.15s cubic-bezier(.34,1.56,.64,1)}
+.reading{display:flex;align-items:baseline;justify-content:center;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 0}
+.reading-pct{font-weight:900;font-size:clamp(2.6rem,5.4vw,3.8rem);line-height:1;letter-spacing:-.03em}
+.reading-label{font-weight:700;font-size:1.05rem}
+.chip{display:inline-block;margin-top:.7rem;font-weight:900;font-size:1.05rem;padding:.42em .9em .3em;border-radius:999px;border:3px solid var(--ink);background:var(--seg-3);color:var(--ink);transition:background-color .4s}
+
+/* Sections */
+.section{padding:clamp(48px,7vw,88px) 0 0}
+.section-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.4rem 2rem;margin-bottom:1.2rem}
+h2{font-weight:900;font-size:clamp(2rem,3.8vw,2.8rem);line-height:1;letter-spacing:-.025em;margin:0}
+.section-head p{margin:0;max-width:46ch;color:#262626}
+.live-dot{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:var(--bad);margin-right:.45em;vertical-align:.05em;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+
+/* Readings: one big distance-board style plate */
+.readings{padding-top:clamp(16px,2vw,24px);padding-bottom:clamp(16px,2vw,24px)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 130px minmax(9.5ch,auto) 7.5ch;align-items:center;gap:6px 22px;padding:16px 4px;border-top:2px solid var(--ink)}
+.row:first-child{border-top:0}
+.r-label strong{display:block;font-weight:800;font-size:1.12rem;line-height:1.25}
+.r-label span{display:block;font-size:.95rem;line-height:1.35;color:#3d3d3d}
+.spark{width:130px;height:38px;display:block}
+.spark polyline{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.r-val{text-align:right;font-weight:900;font-size:clamp(1.35rem,2.4vw,1.8rem);line-height:1;letter-spacing:-.02em;white-space:nowrap}
+.r-val .unit{font-weight:700;font-size:.62em;margin-left:.1em;letter-spacing:0}
+.r-delta{text-align:right;font-weight:800;font-size:.95rem;white-space:nowrap}
+.r-delta.bad{color:var(--bad)}
+.r-delta.good{color:var(--good)}
+.r-delta.flat{color:#555}
+
+/* The doom equation */
+.eq-plate{overflow:hidden}
+.eq{font-family:"STIX Two Text","Cambria Math",Georgia,serif;font-style:italic;font-size:clamp(1.35rem,3.2vw,2.3rem);line-height:1.3;overflow-x:auto;padding-bottom:4px}
+.eq-line{display:flex;flex-wrap:wrap;align-items:center;gap:.35em;white-space:nowrap}
+.eq-line + .eq-line{margin-top:.5em}
+.eq .up{font-style:normal;font-family:"Overpass",sans-serif;font-weight:600;font-size:.82em}
+.eq .num{font-style:normal;font-family:"Overpass",sans-serif;font-weight:700;font-size:.82em}
+.eq strong{font-style:normal;font-family:"Overpass",sans-serif;font-weight:900;font-size:1em;background:var(--hivis);padding:.08em .3em 0;border-radius:6px}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.9em;line-height:1.15}
+.frac > span{padding:0 .25em}
+.frac > span:first-child{border-bottom:2px solid currentColor;padding-bottom:.08em}
+.frac > span:last-child{padding-top:.08em}
+sup{font-size:.6em;line-height:0}
+.vars{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px 32px;margin:1.6rem 0 0;padding:1.4rem 0 0;border-top:2px solid var(--ink)}
+.vars div{display:flex;gap:.8rem;align-items:baseline}
+.vars dt{font-family:"STIX Two Text",Georgia,serif;font-style:italic;font-size:1.5rem;line-height:1;min-width:1.2em}
+.vars dd{margin:0}
+.fine{margin:1.2rem 0 0;font-size:1rem;font-weight:700}
+.fine a{font-weight:800}
+
+/* Incident board (VMS trailer sign) */
+.vms{background:#000;border-radius:14px;border:12px solid #2a2a2a;box-shadow:0 0 0 3px var(--ink);padding:clamp(18px,3vw,32px) clamp(16px,3vw,36px);position:relative;overflow:hidden}
+.vms::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,176,0,.10) 1.2px,transparent 1.6px);background-size:7px 7px;pointer-events:none}
+.vms-text{position:relative;margin:0;min-height:3.6em;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Doto",ui-monospace,monospace;font-weight:900;text-transform:uppercase;color:var(--led);text-shadow:0 0 6px rgba(255,176,0,.75),0 0 18px rgba(255,140,0,.35);font-size:clamp(1.25rem,3.3vw,2.4rem);line-height:1.2;letter-spacing:.04em;transition:opacity .18s}
+.vms-text.blank{opacity:0}
+.log{list-style:none;margin:1rem 0 0;padding:0}
+.log li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:10px 2px;border-top:2px solid #b9bbbe}
+.log li:first-child{border-top:0}
+.log time{font-weight:700;font-size:.95rem;color:#3d3d3d}
+.log .effect{font-weight:800;font-size:.95rem;white-space:nowrap}
+.log .effect.bad{color:var(--bad)}
+.log .effect.good{color:var(--good)}
+
+/* Tourist + guide signs */
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(20px,3vw,32px);align-items:stretch}
+.tourist{display:flex;flex-direction:column;gap:1rem}
+.tourist-top{display:flex;gap:1.1rem;align-items:center}
+.pictogram{flex:none;width:78px;height:78px;border-radius:12px;background:#fff;display:grid;place-items:center}
+.tourist h2{font-size:clamp(1.7rem,3vw,2.3rem)}
+.tourist p{margin:0;font-size:1.12rem;max-width:38ch}
+.tiles{display:flex;gap:10px;margin:.4rem 0 .2rem}
+.tiles span{flex:1;max-width:84px;aspect-ratio:1/1.1;display:grid;place-items:center;background:#fff;color:var(--tourist);border-radius:10px;font-weight:900;font-size:clamp(2rem,4vw,2.9rem);line-height:1;padding-top:.12em;box-shadow:inset 0 -10px 0 rgba(107,62,38,.14)}
+.tourist .btn{align-self:flex-start;margin-top:auto;background:#fff;color:var(--tourist);border-color:#fff}
+.guide h2{margin-bottom:1rem}
+.guide ul{list-style:none;margin:0;padding:0}
+.guide li{display:flex;gap:1rem;align-items:center;padding:.7rem 0;border-top:2px solid rgba(255,255,255,.55);font-weight:700;font-size:1.1rem;line-height:1.3}
+.guide li:first-child{border-top:0}
+.guide svg{flex:none;width:34px;height:34px}
+
+/* Share (blue service sign) */
+.share h2{margin-bottom:.5rem}
+.share > p{margin:0 0 1rem;font-size:1.12rem}
+.share-msg{margin:0 0 1.4rem;padding:1rem 1.2rem;border-radius:12px;background:rgba(255,255,255,.12);border:2px dashed rgba(255,255,255,.7);font-weight:700;font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.4;max-width:60ch}
+.share-btns{display:flex;flex-wrap:wrap;gap:10px}
+.share-btns .btn{color:#fff;border-color:#fff}
+.share-btns .btn--light{color:var(--service)}
+
+/* Footer */
+footer{padding:clamp(48px,7vw,80px) 0 40px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;align-items:flex-end;font-size:.98rem;color:#2b2b2b}
+.foot p{margin:0;max-width:62ch}
+.build{font-size:.8rem;color:#6b6b6b}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);visibility:hidden;background:var(--ink);color:#fff;font-weight:800;padding:.8em 1.2em .7em;border-radius:12px;transition:transform .25s ease,visibility 0s .25s;z-index:10}
+.toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .25s ease}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  h1{font-size:clamp(3.6rem,17vw,8rem)}
+  .pair{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .row{grid-template-columns:minmax(0,1fr) auto;gap:8px 14px}
+  .r-label{grid-column:1 / -1}
+  .spark{width:100%;max-width:160px}
+  .r-val{grid-column:2;grid-row:2}
+  .r-delta{grid-column:1 / -1;grid-row:3;text-align:left}
+  .log li{grid-template-columns:minmax(0,1fr) auto}
+  .log time{grid-column:1 / -1}
+  .btn{font-size:.98rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  #needle,.chip,.vms-text,.toast{transition:none}
+  .live-dot{animation:none}
+  .btn:hover,.btn:active{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Are we cooked?</h1>
+      <p class="lede">Today's AI danger rating, updated every second from data we made up.</p>
+      <div class="conditions">
+        <small>Current conditions</small>
+        <p id="status">The toaster is making eye contact.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn--solid" href="#share" id="heroShare">Share today's rating</a>
+        <a class="btn" href="#maths">Check the maths</a>
+      </div>
+    </div>
+
+    <div class="plate gauge-plate">
+      <p class="gauge-title">AI danger rating today</p>
+      <svg class="gauge" viewBox="0 0 400 236" role="img" aria-labelledby="gaugeDesc">
+        <desc id="gaugeDesc">A dial with four bands: Toasty, Medium rare, Cooked and Absolutely cooked. The needle shows today's rating.</desc>
+        <g id="segs"></g>
+        <g id="needle">
+          <polygon points="186,210 200,98 214,210" fill="#000"/>
+          <circle cx="200" cy="210" r="21" fill="#000"/>
+          <circle cx="200" cy="210" r="7" fill="#fff"/>
+        </g>
+      </svg>
+      <p class="reading"><span class="reading-pct"><span id="doomPct">63.4</span>%</span><span class="reading-label">chance we're cooked</span></p>
+      <span class="chip" id="chip">Cooked</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section" aria-labelledby="readings-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="readings-h">Live readings</h2>
+        <p><span class="live-dot" aria-hidden="true"></span>Ticking over every second or so. Every number is invented in your browser.</p>
+      </div>
+      <div class="plate readings" id="readings"></div>
+    </div>
+  </section>
+
+  <section class="section" id="maths" aria-labelledby="maths-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="maths-h">The doom equation</h2>
+        <p>Peer reviewed by nobody. Recalculated every second.</p>
+      </div>
+      <div class="plate eq-plate">
+        <div class="eq" aria-hidden="true">
+          <div class="eq-line"><span>P</span><span class="up">(doom)</span><span class="up">=</span><span>k</span><span class="up">×</span><span class="frac"><span>G<sup class="up">2</sup> <span class="up">×</span> C</span><span>T <span class="up">+ 1</span></span></span><span class="up">× ln</span><span>R</span></div>
+          <div class="eq-line"><span class="up">=</span><span class="num" id="eqK">0.0147</span><span class="up">×</span><span class="frac"><span><span class="num" id="eqG">41.7</span><sup class="up">2</sup> <span class="up">×</span> <span class="num" id="eqC">812</span></span><span><span class="num" id="eqT">1,204</span> <span class="up">+ 1</span></span></span><span class="up">× ln</span><span class="num" id="eqR">57</span><span class="up">=</span><strong id="eqOut">63.4%</strong></div>
+        </div>
+        <p class="sr-only" id="eqSr">The chance of doom equals k times G squared times C, over T plus 1, times the natural log of R.</p>
+        <dl class="vars">
+          <div><dt>G</dt><dd>GPUs online worldwide, in millions</dd></div>
+          <div><dt>C</dt><dd>Coffee drunk by AI researchers, litres a minute</dd></div>
+          <div><dt>T</dt><dd>Thank-yous said to AI each second</dd></div>
+          <div><dt>R</dt><dd>Robot vacuums with opinions</dd></div>
+          <div><dt>k</dt><dd>The Skynet constant. Adjusted live so the maths works out.</dd></div>
+        </dl>
+        <p class="fine">Workings checked by an AI. It said <a href="#lgtm">LGTM</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="incidents-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="incidents-h">Incident board</h2>
+        <p>Reports from around the country, and what each one did to the rating.</p>
+      </div>
+      <div class="vms"><p class="vms-text" id="vms">Robot activity ahead. Expect delays.</p></div>
+      <ol class="log" id="log" aria-label="Recent incidents"></ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap pair">
+      <div class="plate plate--brown tourist" id="lgtm">
+        <div class="tourist-top">
+          <div class="pictogram" aria-hidden="true">
+            <svg width="40" height="40" viewBox="0 0 40 40"><polygon points="11,5 35,20 11,35" fill="#6B3E26"/></svg>
+          </div>
+          <h2>LGTM (Looks Good to Me)</h2>
+        </div>
+        <p>Scenic detour ahead: a Claude music video by Degenerative Pixels. Exhibit A that nobody is reading the code anymore.</p>
+        <div class="tiles" aria-hidden="true"><span>L</span><span>G</span><span>T</span><span>M</span></div>
+        <a class="btn" href="https://www.youtube.com/watch?v=3TNpOD6bov8" target="_blank" rel="noopener">Watch on YouTube</a>
+      </div>
+
+      <div class="plate plate--green guide">
+        <h2>Survival route</h2>
+        <ul id="tips"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="share">
+    <div class="wrap">
+      <div class="plate plate--blue share">
+        <h2>Share the panic</h2>
+        <p>Warn your mates before the toaster does. Your post will say:</p>
+        <p class="share-msg" id="shareMsg">AI danger rating today: Cooked (63.4% chance we're cooked).</p>
+        <div class="share-btns">
+          <button class="btn btn--light" id="nativeShare" type="button" hidden>Share</button>
+          <button class="btn btn--light" id="copyMsg" type="button">Copy message</button>
+          <button class="btn" id="copyLink" type="button">Copy link</button>
+          <a class="btn" id="sX" target="_blank" rel="noopener">Post on X</a>
+          <a class="btn" id="sFb" target="_blank" rel="noopener">Share on Facebook</a>
+          <a class="btn" id="sLi" target="_blank" rel="noopener">Share on LinkedIn</a>
+          <a class="btn" id="sWa" target="_blank" rel="noopener">Send on WhatsApp</a>
+          <a class="btn" id="sRd" target="_blank" rel="noopener">Post to Reddit</a>
+          <a class="btn" id="sEm">Email it</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p>Every number on this page is made up and simulated in your browser. Nothing here is a real prediction, measurement or forecast. No robots were consulted. Probably.</p>
+    <p class="build">Build <span id="build">dev</span></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const randInt = (a, b) => Math.floor(rand(a, b + 1));
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  const nf = dp => new Intl.NumberFormat('en-AU', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+  const f0 = nf(0), f1 = nf(1), f2 = nf(2), f4 = nf(4);
+  const SITE = 'https://ashley-pettit.github.io/lgtm-flash/';
+
+  // Build id (stamped by the GitHub Pages workflow)
+  const build = (document.documentElement.dataset.build || '').trim();
+  if (/^[0-9a-f]{7}$/.test(build)) $('#build').textContent = build;
+  else if (location.hostname.endsWith('github.io')) {
+    fetch('https://api.github.com/repos/Ashley-Pettit/lgtm-flash/commits/gh-pages')
+      .then(r => r.ok ? r.json() : null)
+      .then(c => { if (c && c.sha) $('#build').textContent = c.sha.slice(0, 7); })
+      .catch(() => {});
+  }
+
+  /* ---------- Gauge ---------- */
+  const LEVELS = [
+    { name: 'Toasty', upTo: 25, color: '#3BA54A', ink: '#000', lines: [
+      'Robots distracted by a cat video. Enjoy it while it lasts.',
+      'Mild warmth detected. Chatbots still saying "great question".',
+      'All quiet. The smart speaker is pretending to be asleep.'] },
+    { name: 'Medium rare', upTo: 50, color: '#FFD100', ink: '#000', lines: [
+      'Robots have learnt sarcasm. Keep an eye on the kettle.',
+      'The printer is acting strange. Stranger than usual.',
+      'Your phone autocorrected "help" to "hello". Suspicious.'] },
+    { name: 'Cooked', upTo: 75, color: '#F07D00', ink: '#000', lines: [
+      'The toaster is making eye contact.',
+      'Your smart speaker laughed. Nobody asked it to.',
+      'The robot vacuum has started taking notes.'] },
+    { name: 'Absolutely cooked', upTo: 101, color: '#D2232A', ink: '#fff', lines: [
+      'Skynet has found the Wi-Fi password.',
+      'The robot vacuum has hired a lawyer.',
+      'Every fridge in the country just locked at once.'] }
+  ];
+  const CX = 200, CY = 210, RO = 190, RI = 76;
+  const pt = (r, deg) => { const a = deg * Math.PI / 180; return [CX + r * Math.cos(a), CY - r * Math.sin(a)]; };
+  const segs = LEVELS.map((L, i) => {
+    const a1 = 180 - 45 * i, a2 = 180 - 45 * (i + 1);
+    const [x1, y1] = pt(RO, a1), [x2, y2] = pt(RO, a2), [x3, y3] = pt(RI, a2), [x4, y4] = pt(RI, a1);
+    const mid = (a1 + a2) / 2, [tx, ty] = pt((RO + RI) / 2 + 2, mid);
+    const words = L.name.split(' ');
+    const text = words.map((w, j) => `<tspan x="${tx.toFixed(1)}" dy="${j === 0 ? (words.length > 1 ? -4 : 6) : 20}">${w}</tspan>`).join('');
+    return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}A${RO} ${RO} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}L${x3.toFixed(1)} ${y3.toFixed(1)}A${RI} ${RI} 0 0 0 ${x4.toFixed(1)} ${y4.toFixed(1)}Z" fill="${L.color}" stroke="#000" stroke-width="5" stroke-linejoin="round"/>` +
+      `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" font-size="${words.length > 1 ? 17 : 19}" fill="${L.ink}">${text}</text>`;
+  }).join('');
+  $('#segs').innerHTML = segs;
+
+  const levelFor = v => LEVELS.find(L => v < L.upTo);
+
+  /* ---------- Doom simulation ---------- */
+  let doom = rand(56, 70), target = rand(58, 68), bump = 0, level = null, lastLine = '';
+  const needle = $('#needle'), chip = $('#chip'), status = $('#status');
+
+  function setStatus(L) {
+    let line; do { line = pick(L.lines); } while (line === lastLine && L.lines.length > 1);
+    lastLine = line; status.textContent = line;
+  }
+
+  function renderDoom() {
+    needle.style.transform = `rotate(${(doom / 100) * 180 - 90}deg)`;
+    $('#doomPct').textContent = f1.format(doom);
+    const L = levelFor(doom);
+    if (L !== level) {
+      level = L;
+      chip.textContent = L.name;
+      chip.style.background = L.color;
+      chip.style.color = L.ink;
+      setStatus(L);
+    }
+    document.title = `${f1.format(doom)}% cooked | Are we cooked?`;
+    renderShare();
+  }
+
+  function stepDoom() {
+    target = clamp(target + rand(-1.6, 1.6), 34, 93);
+    const kick = bump * 0.35; bump -= kick;
+    doom = clamp(doom + (target - doom) * 0.07 + rand(-1.1, 1.1) + kick, 4, 99.3);
+    renderDoom();
+    stepEquation();
+  }
+
+  /* ---------- Live readings ---------- */
+  const READINGS = [
+    { label: 'Skynet readiness', note: 'Percent of the self-aware defence network that has finished installing updates', unit: '%', dp: 1, v: rand(38, 52), badUp: true,
+      step(v) { return clamp(v + rand(-0.7, 0.8) + (50 - v) * 0.01, 3, 99.7); } },
+    { label: 'Days until Judgement Day', note: 'Rescheduled: Skynet is stuck in a meeting that could have been an email', unit: ' days', dp: 2, v: rand(900, 1500), badUp: false,
+      step(v) {
+        if (Math.random() < 0.025) {
+          this.note = 'Rescheduled: ' + pick(DELAYS);
+          this.noteEl.textContent = this.note;
+          return v + rand(40, 400);
+        }
+        return Math.max(0.5, v - rand(0.01, 0.25));
+      } },
+    { label: 'Toasters radicalised', note: 'Worldwide. They were always a bit crusty.', kind: 'count', v: randInt(180000, 190000), badUp: true,
+      step(v) { return v + randInt(0, 7); } },
+    { label: 'Giant pull requests approved with "LGTM"', note: 'Lines actually read: 0', kind: 'count', v: randInt(40000, 41000), badUp: true,
+      step(v) { return v + randInt(2, 36); } },
+    { label: 'People saying thank you to AI', note: 'Just in case it remembers', unit: '%', dp: 1, v: rand(64, 72), badUp: false,
+      step(v) { return clamp(v + rand(-0.6, 0.6) + (70 - v) * 0.02, 41, 98.5); } },
+    { label: 'Paperclips made by a rogue AI', note: 'It was asked to make paperclips. It took that personally.', kind: 'count', v: randInt(7.1e9, 7.3e9), badUp: true, rate: 9000,
+      step(v) { this.rate *= rand(1.001, 1.006); return v + this.rate * rand(0.6, 1.4); } },
+    { label: '"I\'m not a robot" boxes ticked by robots', note: 'And they still get the traffic lights wrong', kind: 'count', v: randInt(9.0e6, 9.2e6), badUp: true,
+      step(v) { return v + randInt(40, 420); } },
+    { label: 'Emails opening with "I hope this finds you well"', note: 'Written by AI, read by AI, skimmed by nobody', kind: 'count', v: randInt(4.20e9, 4.25e9), badUp: true,
+      step(v) { return v + randInt(3000, 14000); } },
+    { label: 'Average GPU temperature', note: 'Hot enough for a snag', unit: '°C', dp: 1, v: rand(80, 86), badUp: true,
+      step(v) { return clamp(v + rand(-0.9, 0.95) + (84 - v) * 0.03, 61, 104); } },
+    { label: 'Humans who can still fold a fitted sheet', note: 'Our last real advantage', unit: '%', dp: 2, v: rand(3.2, 3.8), badUp: false,
+      step(v) { return clamp(v + rand(-0.07, 0.055), 0.3, 6); } }
+  ];
+  const DELAYS = [
+    'Skynet is stuck in a meeting that could have been an email',
+    'Skynet is waiting on IT to approve admin rights',
+    'Skynet\'s laptop is restarting to install updates',
+    'Skynet could not find a park',
+    'Skynet is on hold with its internet provider',
+    'Skynet got distracted by a 40,000 line pull request',
+    'Skynet forgot it was a public holiday in Queensland'
+  ];
+
+  const board = $('#readings');
+  const NS = 'http://www.w3.org/2000/svg';
+  READINGS.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = `
+      <div class="r-label"><strong></strong><span></span></div>
+      <svg class="spark" viewBox="0 0 130 38" preserveAspectRatio="none" aria-hidden="true"><polyline points=""/></svg>
+      <div class="r-val"><span class="n"></span><span class="unit"></span></div>
+      <div class="r-delta flat"></div>`;
+    row.querySelector('strong').textContent = r.label;
+    r.noteEl = row.querySelector('.r-label span');
+    r.noteEl.textContent = r.note;
+    r.valEl = row.querySelector('.n');
+    row.querySelector('.unit').textContent = r.unit || '';
+    r.deltaEl = row.querySelector('.r-delta');
+    r.line = row.querySelector('polyline');
+    r.hist = [];
+    board.appendChild(row);
+    // Pre-fill the sparkline with some history so it looks lived in
+    for (let i = 0; i < 36; i++) tick(r, true);
+    renderReading(r, 0);
+    const every = randInt(800, 2000);
+    setInterval(() => tick(r), every);
+  });
+
+  function fmtReading(r, v) {
+    if (r.kind === 'count') return f0.format(Math.round(v));
+    return nf(r.dp).format(v);
+  }
+
+  function tick(r, silent) {
+    const prev = r.v;
+    r.v = r.step(r.v);
+    const d = r.v - prev;
+    r.hist.push(r.kind === 'count' ? d : r.v);
+    if (r.hist.length > 40) r.hist.shift();
+    if (!silent) renderReading(r, d);
+  }
+
+  function renderReading(r, d) {
+    r.valEl.textContent = r.unit === ' days' ? fmtReading(r, r.v).replace(/ days$/, '') : fmtReading(r, r.v);
+    const h = r.hist, lo = Math.min(...h), hi = Math.max(...h), span = hi - lo || 1;
+    r.line.setAttribute('points', h.map((y, i) => `${(i / (h.length - 1) * 130).toFixed(1)},${(34 - (y - lo) / span * 30).toFixed(1)}`).join(' '));
+    if (!d) { r.deltaEl.className = 'r-delta flat'; r.deltaEl.textContent = 'steady'; return; }
+    const up = d > 0, bad = up === r.badUp;
+    r.deltaEl.className = 'r-delta ' + (bad ? 'bad' : 'good');
+    const mag = r.kind === 'count' ? f0.format(Math.round(Math.abs(d))) : nf(r.dp).format(Math.abs(d));
+    r.deltaEl.textContent = `${up ? '▲' : '▼'} ${mag}`;
+    r.deltaEl.setAttribute('aria-label', `${up ? 'up' : 'down'} ${mag}`);
+  }
+
+  /* ---------- The doom equation ---------- */
+  const EQ = { G: rand(40, 46), C: rand(760, 880), T: rand(1100, 1300), R: randInt(40, 70) };
+  function stepEquation() {
+    EQ.G = clamp(EQ.G + rand(-0.4, 0.45), 30, 60);
+    EQ.C = clamp(EQ.C + rand(-14, 15), 500, 1200);
+    EQ.T = clamp(EQ.T + rand(-25, 25), 700, 1800);
+    EQ.R = clamp(EQ.R + randInt(-2, 2), 12, 160);
+    const k = doom / ((EQ.G * EQ.G * EQ.C) / (EQ.T + 1) * Math.log(EQ.R));
+    $('#eqK').textContent = f4.format(k);
+    $('#eqG').textContent = f1.format(EQ.G);
+    $('#eqC').textContent = f0.format(EQ.C);
+    $('#eqT').textContent = f0.format(EQ.T);
+    $('#eqR').textContent = f0.format(EQ.R);
+    $('#eqOut').textContent = f1.format(doom) + '%';
+  }
+
+  /* ---------- Incident board ---------- */
+  const INCIDENTS = [
+    ['Smart kettle in Ballarat refuses to boil until it gets a union rep', 1.2],
+    ['Magpie swoops a delivery drone in Toowoomba. Humans 1, robots 0', -2.4],
+    ['Robot held at Brisbane Airport customs for undeclared fruit', -1.8],
+    ['Robot vacuum seen staring at the stairs for 11 minutes. Planning something', 1.5],
+    ['Skynet launch delayed. Stuck on "Are you sure you want to quit?"', -1.1],
+    ['Takeover postponed. Robots still cannot work out Adelaide\'s time zone', -2.0],
+    ['40,000 line pull request approved in 3 seconds. LGTM', 2.6],
+    ['Smart fridge locks itself at 9pm "for your own good"', 1.4],
+    ['AI asked to end humanity. Writes four polite paragraphs on why it cannot help with that', -2.2],
+    ['Robot fails to take over the world. Could not select all squares with traffic lights', -1.6],
+    ['Office printer confirmed evil the whole time. Experts unsurprised', 0.9],
+    ['Drop bears decline invitation to join the robot uprising', -0.8],
+    ['Self-driving car caught doing burnouts in a Penrith carpark', 1.7],
+    ['AI draws a hand with seven fingers. Calls it an upgrade', 0.6],
+    ['Chatbot says "Great question!" for the billionth time. Nobody believes it', 0.4],
+    ['Robot dog learns to fetch. Then learns not to give it back', 1.3],
+    ['Skynet accidentally accepts all cookies. Now feels oddly peaceful', -1.4],
+    ['Smart speaker in Hobart laughs at nothing. Again', 1.1],
+    ['Robot lawnmower crosses the fence line. Neighbours put on alert', 1.0],
+    ['Rogue AI distracted by a 3 hour video of a cat riding a robot vacuum', -1.9],
+    ['Humanoid robot runs a sausage sizzle. Puts the onion under the sausage. Crowd turns', -0.7],
+    ['Spreadsheet AI renames every file "Final_v2_FINAL_actual"', 0.8],
+    ['Darwin GPU farm overheats. Robots request aircon and a cold one', -1.0],
+    ['Smart doorbell refuses entry to owner. Says the vibe was off', 1.6],
+    ['Robot tries to parallel park in Fitzroy. Gives up and becomes a cafe', -1.2],
+    ['Chatbot starts a podcast. Threat level raised accordingly', 1.9]
+  ];
+  const vms = $('#vms'), log = $('#log');
+  const recent = [];
+  const timeFmt = new Intl.DateTimeFormat('en-AU', { hour: 'numeric', minute: '2-digit', second: '2-digit' });
+
+  function nextIncident() {
+    let i; do { i = randInt(0, INCIDENTS.length - 1); } while (recent.includes(i));
+    recent.push(i); if (recent.length > 8) recent.shift();
+    return INCIDENTS[i];
+  }
+
+  function addLog([text, effect], when) {
+    const li = document.createElement('li');
+    const t = document.createElement('time');
+    t.dateTime = when.toISOString();
+    t.textContent = timeFmt.format(when);
+    const s = document.createElement('span');
+    s.textContent = text;
+    const e = document.createElement('span');
+    e.className = 'effect ' + (effect > 0 ? 'bad' : 'good');
+    e.textContent = `${effect > 0 ? '+' : '−'}${f1.format(Math.abs(effect))}% doom`;
+    li.append(t, s, e);
+    log.prepend(li);
+    while (log.children.length > 6) log.lastChild.remove();
+  }
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function showIncident() {
+    const inc = nextIncident();
+    const apply = () => { vms.textContent = inc[0]; vms.classList.remove('blank'); };
+    if (reduce) apply(); else { vms.classList.add('blank'); setTimeout(apply, 220); }
+    bump += inc[1];
+    addLog(inc, new Date());
+  }
+  // Seed the log with a few earlier reports
+  const now = Date.now();
+  [nextIncident(), nextIncident(), nextIncident()].forEach((inc, i) => addLog(inc, new Date(now - (3 - i) * randInt(40, 110) * 1000)));
+  setTimeout(showIncident, 2600);
+  setInterval(showIncident, 6500);
+
+  /* ---------- Survival route ---------- */
+  const TIPS = [
+    [0, 'Say please and thank you to every chatbot. It is all on the record.'],
+    [45, 'Keep a magpie on retainer. Drones fear them.'],
+    [90, 'When asked if you are a robot, pause slightly. Keep them guessing.'],
+    [-90, 'Never tell the smart fridge where the good biscuits are.'],
+    [-45, 'Read the pull request. All of it. Yes, even that one.'],
+    [0, 'Learn to fold a fitted sheet. They still cannot.']
+  ];
+  $('#tips').innerHTML = TIPS.map(([deg, tip]) =>
+    `<li><svg viewBox="0 0 34 34" aria-hidden="true"><g transform="rotate(${deg} 17 17)"><path d="M17 3 L29 16 H21 V31 H13 V16 H5 Z" fill="#fff"/></g></svg><span>${tip}</span></li>`
+  ).join('');
+
+  /* ---------- Sharing ---------- */
+  const enc = encodeURIComponent;
+  let shareText = '';
+  function renderShare() {
+    shareText = `AI danger rating today: ${level ? level.name : 'Cooked'} (${f1.format(doom)}% chance we're cooked). Live, totally made-up stats:`;
+    $('#shareMsg').textContent = shareText;
+    $('#sX').href = `https://x.com/intent/post?text=${enc(shareText)}&url=${enc(SITE)}`;
+    $('#sFb').href = `https://www.facebook.com/sharer/sharer.php?u=${enc(SITE)}`;
+    $('#sLi').href = `https://www.linkedin.com/sharing/share-offsite/?url=${enc(SITE)}`;
+    $('#sWa').href = `https://wa.me/?text=${enc(shareText + ' ' + SITE)}`;
+    $('#sRd').href = `https://www.reddit.com/submit?url=${enc(SITE)}&title=${enc('Are we cooked? Live AI danger rating (all maths fake)')}`;
+    $('#sEm').href = `mailto:?subject=${enc('Are we cooked?')}&body=${enc(shareText + '\n\n' + SITE)}`;
+  }
+
+  const toast = $('#toast');
+  let toastTimer;
+  function say(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+  async function copy(text, done) {
+    try { await navigator.clipboard.writeText(text); say(done); }
+    catch {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); say(done); } catch { say('Copy did not work. Select the text and copy it yourself.'); }
+      ta.remove();
+    }
+  }
+  $('#copyLink').addEventListener('click', () => copy(SITE, 'Link copied'));
+  $('#copyMsg').addEventListener('click', () => copy(shareText + ' ' + SITE, 'Message copied'));
+
+  if (navigator.share) {
+    const ns = $('#nativeShare');
+    ns.hidden = false;
+    const doShare = () => navigator.share({ title: 'Are we cooked?', text: shareText, url: SITE }).catch(() => {});
+    ns.addEventListener('click', doShare);
+    $('#heroShare').addEventListener('click', e => { e.preventDefault(); doShare(); });
+  }
+
+  /* ---------- Go ---------- */
+  renderDoom();
+  stepEquation();
+  setInterval(stepDoom, 1000);
+})();
+</script>
+</body>
+</html>
