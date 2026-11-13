@@ -81,6 +81,8 @@ h1{font-weight:900;font-size:clamp(3.6rem,10.4vw,8.4rem);line-height:.84;letter-
 .lede{font-size:clamp(1.2rem,1.9vw,1.5rem);line-height:1.35;font-weight:500;max-width:28ch;margin:0 0 1.6rem}
 .conditions{border-left:8px solid var(--ink);padding:.2em 0 .2em 1rem;margin:0 0 1.8rem;max-width:34ch}
 .conditions small{display:block;font-size:.95rem;font-weight:700}
+.conditions p{transition:opacity .2s}
+.conditions p.swap{opacity:0}
 .conditions p{margin:0;font-size:clamp(1.25rem,2.1vw,1.6rem);line-height:1.25;font-weight:800}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
 
@@ -92,6 +94,7 @@ h1{font-weight:900;font-size:clamp(3.6rem,10.4vw,8.4rem);line-height:.84;letter-
 .reading{display:flex;align-items:baseline;justify-content:center;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 0}
 .reading-pct{font-weight:900;font-size:clamp(2.6rem,5.4vw,3.8rem);line-height:1;letter-spacing:-.03em}
 .reading-label{font-weight:700;font-size:1.05rem}
+.asat{margin:.7rem 0 0;font-size:.9rem;font-weight:600;color:#4a4a4a}
 .chip{display:inline-block;margin-top:.7rem;font-weight:900;font-size:1.05rem;padding:.42em .9em .3em;border-radius:999px;border:3px solid var(--ink);background:var(--seg-3);color:var(--ink);transition:background-color .4s}
 
 /* Sections */
@@ -116,6 +119,22 @@ h2{font-weight:900;font-size:clamp(2rem,3.8vw,2.8rem);line-height:1;letter-spaci
 .r-delta.bad{color:var(--bad)}
 .r-delta.good{color:var(--good)}
 .r-delta.flat{color:#555}
+
+/* Most likely causes: ranked leaderboard */
+.causes{list-style:none;margin:0;padding-top:clamp(14px,2vw,22px);padding-bottom:clamp(14px,2vw,22px)}
+.cause{display:grid;grid-template-columns:2.6rem minmax(0,1fr) 7.2rem;gap:6px 18px;align-items:center;padding:15px 4px;border-top:2px solid var(--ink);background:var(--paper);position:relative}
+.cause:first-child{border-top-color:transparent}
+.rank{width:2.5rem;height:2.5rem;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:900;font-size:1.15rem;padding-top:.14em}
+.c-body strong{display:block;font-weight:800;font-size:1.16rem;line-height:1.25}
+.c-body > span{display:block;font-size:.97rem;line-height:1.35;color:#3d3d3d}
+.bar{height:14px;border-radius:7px;background:#ececec;border:2px solid var(--ink);margin-top:.6rem;overflow:hidden}
+.bar i{display:block;height:100%;width:0;transition:width .9s ease,background-color .9s}
+.c-odds{text-align:right;white-space:nowrap}
+.c-odds b{display:block;font-weight:900;font-size:clamp(1.35rem,2.3vw,1.7rem);line-height:1;letter-spacing:-.02em}
+.c-odds small{display:block;margin-top:.35rem;font-weight:700;font-size:.92rem;color:#3d3d3d}
+.c-odds em{font-style:normal;font-weight:800}
+.c-odds em.bad{color:var(--bad)}
+.c-odds em.good{color:var(--good)}
 
 /* The doom equation */
 .eq-plate{overflow:hidden}
@@ -142,7 +161,14 @@ sup{font-size:.6em;line-height:0}
 .vms::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,176,0,.10) 1.2px,transparent 1.6px);background-size:7px 7px;pointer-events:none}
 .vms-text{position:relative;margin:0;min-height:3.6em;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Doto",ui-monospace,monospace;font-weight:900;text-transform:uppercase;color:var(--led);text-shadow:0 0 6px rgba(255,176,0,.75),0 0 18px rgba(255,140,0,.35);font-size:clamp(1.25rem,3.3vw,2.4rem);line-height:1.2;letter-spacing:.04em;transition:opacity .18s}
 .vms-text.blank{opacity:0}
+.lamps{display:flex;justify-content:space-between;padding:0 clamp(24px,12%,140px);margin-bottom:-6px;position:relative;z-index:1}
+.lamps span{width:30px;height:30px;border-radius:50%;background:#5a3d00;border:5px solid #2a2a2a;box-shadow:0 0 0 3px var(--ink)}
+.lamps span:first-child{animation:lamp 1.3s steps(1) infinite}
+.lamps span:last-child{animation:lamp 1.3s steps(1) -.65s infinite}
+@keyframes lamp{0%{background:var(--led);box-shadow:0 0 0 3px var(--ink),0 0 18px 4px rgba(255,176,0,.8)}50%{background:#5a3d00;box-shadow:0 0 0 3px var(--ink)}}
 .log{list-style:none;margin:1rem 0 0;padding:0}
+.log li.fresh{animation:fresh 1.8s ease-out}
+@keyframes fresh{from{background:rgba(255,209,0,.85)}to{background:transparent}}
 .log li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:10px 2px;border-top:2px solid #b9bbbe}
 .log li:first-child{border-top:0}
 .log time{font-weight:700;font-size:.95rem;color:#3d3d3d}
@@ -150,25 +176,36 @@ sup{font-size:.6em;line-height:0}
 .log .effect.bad{color:var(--bad)}
 .log .effect.good{color:var(--good)}
 
-/* Tourist + guide signs */
-.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(20px,3vw,32px);align-items:stretch}
-.tourist{display:flex;flex-direction:column;gap:1rem}
+/* Tourist sign with the video, then the guide sign */
+.tourist{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(22px,3.4vw,44px);align-items:center}
+.tourist-copy{display:flex;flex-direction:column;gap:1rem}
+.screen{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;box-shadow:0 0 0 6px #fff}
+.screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .tourist-top{display:flex;gap:1.1rem;align-items:center}
 .pictogram{flex:none;width:78px;height:78px;border-radius:12px;background:#fff;display:grid;place-items:center}
 .tourist h2{font-size:clamp(1.7rem,3vw,2.3rem)}
 .tourist p{margin:0;font-size:1.12rem;max-width:38ch}
 .tiles{display:flex;gap:10px;margin:.4rem 0 .2rem}
 .tiles span{flex:1;max-width:84px;aspect-ratio:1/1.1;display:grid;place-items:center;background:#fff;color:var(--tourist);border-radius:10px;font-weight:900;font-size:clamp(2rem,4vw,2.9rem);line-height:1;padding-top:.12em;box-shadow:inset 0 -10px 0 rgba(107,62,38,.14)}
-.tourist .btn{align-self:flex-start;margin-top:auto;background:#fff;color:var(--tourist);border-color:#fff}
+.tourist .btn{align-self:flex-start;margin-top:.4rem;background:#fff;color:var(--tourist);border-color:#fff}
 .guide h2{margin-bottom:1rem}
-.guide ul{list-style:none;margin:0;padding:0}
-.guide li{display:flex;gap:1rem;align-items:center;padding:.7rem 0;border-top:2px solid rgba(255,255,255,.55);font-weight:700;font-size:1.1rem;line-height:1.3}
-.guide li:first-child{border-top:0}
+.guide ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,4vw,56px)}
+.guide li{display:flex;gap:1rem;align-items:center;padding:.85rem 0;border-top:2px solid rgba(255,255,255,.55);font-weight:700;font-size:1.12rem;line-height:1.3}
+.guide li:nth-child(-n+2){border-top:0}
 .guide svg{flex:none;width:34px;height:34px}
 
 /* Share (blue service sign) */
+.share{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(24px,4vw,52px);align-items:start}
 .share h2{margin-bottom:.5rem}
-.share > p{margin:0 0 1rem;font-size:1.12rem}
+.share-copy > p{margin:0 0 1rem;font-size:1.12rem}
+.preview{margin:0}
+.preview figcaption{font-weight:700;font-size:1rem;margin-bottom:.6rem}
+.preview-card{background:#fff;color:var(--ink);border-radius:14px;overflow:hidden;box-shadow:0 0 0 3px #fff}
+.preview-card img{display:block;width:100%;height:auto;border-bottom:1px solid #d8d8d8}
+.preview-meta{padding:.8rem 1rem .9rem;display:grid;gap:.15rem;font-size:.92rem;line-height:1.35}
+.preview-meta span:first-child{color:#5a5a5a}
+.preview-meta strong{font-weight:800;font-size:1rem}
+.preview-meta span:last-child{color:#3d3d3d}
 .share-msg{margin:0 0 1.4rem;padding:1rem 1.2rem;border-radius:12px;background:rgba(255,255,255,.12);border:2px dashed rgba(255,255,255,.7);font-weight:700;font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.4;max-width:60ch}
 .share-btns{display:flex;flex-wrap:wrap;gap:10px}
 .share-btns .btn{color:#fff;border-color:#fff}
@@ -186,7 +223,12 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr}
   h1{font-size:clamp(3.6rem,17vw,8rem)}
-  .pair{grid-template-columns:1fr}
+  .tourist,.share{grid-template-columns:1fr}
+  .preview{max-width:460px}
+}
+@media (max-width:700px){
+  .guide ul{grid-template-columns:1fr}
+  .guide li:nth-child(2){border-top:2px solid rgba(255,255,255,.55)}
 }
 @media (max-width:640px){
   .row{grid-template-columns:minmax(0,1fr) auto;gap:8px 14px}
@@ -195,13 +237,21 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
   .r-val{grid-column:2;grid-row:2}
   .r-delta{grid-column:1 / -1;grid-row:3;text-align:left}
   .log li{grid-template-columns:minmax(0,1fr) auto}
+  .cause{grid-template-columns:2.1rem minmax(0,1fr) auto;grid-template-areas:"rank name odds" ". blurb blurb" ". bar bar";gap:2px 12px;align-items:start}
+  .c-body{display:contents}
+  .rank{grid-area:rank;width:2.1rem;height:2.1rem;font-size:1rem}
+  .c-body strong{grid-area:name;align-self:center}
+  .c-body > span{grid-area:blurb;margin-top:.2rem}
+  .bar{grid-area:bar;margin-top:.5rem}
+  .c-odds{grid-area:odds}
   .log time{grid-column:1 / -1}
   .btn{font-size:.98rem}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  #needle,.chip,.vms-text,.toast{transition:none}
-  .live-dot{animation:none}
+  #needle,.chip,.vms-text,.toast,.bar i,.conditions p{transition:none}
+  .live-dot,.lamps span,.log li.fresh{animation:none}
+  .lamps span:first-child{background:var(--led)}
   .btn:hover,.btn:active{transform:none}
 }
 </style>
@@ -215,7 +265,7 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
       <p class="lede">Today's AI danger rating, updated every second from data we made up.</p>
       <div class="conditions">
         <small>Current conditions</small>
-        <p id="status">The toaster is making eye contact.</p>
+        <p id="status"></p>
       </div>
       <div class="hero-actions">
         <a class="btn btn--solid" href="#share" id="heroShare">Share today's rating</a>
@@ -236,6 +286,7 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
       </svg>
       <p class="reading"><span class="reading-pct"><span id="doomPct">63.4</span>%</span><span class="reading-label">chance we're cooked</span></p>
       <span class="chip" id="chip">Cooked</span>
+      <p class="asat">As at <time id="asat">just now</time></p>
     </div>
   </div>
 </header>
@@ -251,6 +302,16 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
     </div>
   </section>
 
+  <section class="section" id="causes" aria-labelledby="causes-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="causes-h">How AI is most likely to get us</h2>
+        <p>Live odds, ranked. Each one's share of the total doom, with bookie odds for the punters.</p>
+      </div>
+      <ol class="plate causes" id="causes-list" aria-label="Most likely causes, highest first"></ol>
+    </div>
+  </section>
+
   <section class="section" id="maths" aria-labelledby="maths-h">
     <div class="wrap">
       <div class="section-head">
@@ -259,7 +320,7 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
       </div>
       <div class="plate eq-plate">
         <div class="eq" aria-hidden="true">
-          <div class="eq-line"><span>P</span><span class="up">(doom)</span><span class="up">=</span><span>k</span><span class="up">×</span><span class="frac"><span>G<sup class="up">2</sup> <span class="up">×</span> C</span><span>T <span class="up">+ 1</span></span></span><span class="up">× ln</span><span>R</span></div>
+          <div class="eq-line"><span>P<span class="up">(doom)</span></span><span class="up">=</span><span>k</span><span class="up">×</span><span class="frac"><span>G<sup class="up">2</sup> <span class="up">×</span> C</span><span>T <span class="up">+ 1</span></span></span><span class="up">× ln</span><span>R</span></div>
           <div class="eq-line"><span class="up">=</span><span class="num" id="eqK">0.0147</span><span class="up">×</span><span class="frac"><span><span class="num" id="eqG">41.7</span><sup class="up">2</sup> <span class="up">×</span> <span class="num" id="eqC">812</span></span><span><span class="num" id="eqT">1,204</span> <span class="up">+ 1</span></span></span><span class="up">× ln</span><span class="num" id="eqR">57</span><span class="up">=</span><strong id="eqOut">63.4%</strong></div>
         </div>
         <p class="sr-only" id="eqSr">The chance of doom equals k times G squared times C, over T plus 1, times the natural log of R.</p>
@@ -281,49 +342,72 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
         <h2 id="incidents-h">Incident board</h2>
         <p>Reports from around the country, and what each one did to the rating.</p>
       </div>
+      <div class="lamps" aria-hidden="true"><span></span><span></span></div>
       <div class="vms"><p class="vms-text" id="vms">Robot activity ahead. Expect delays.</p></div>
       <ol class="log" id="log" aria-label="Recent incidents"></ol>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap pair">
-      <div class="plate plate--brown tourist" id="lgtm">
-        <div class="tourist-top">
-          <div class="pictogram" aria-hidden="true">
-            <svg width="40" height="40" viewBox="0 0 40 40"><polygon points="11,5 35,20 11,35" fill="#6B3E26"/></svg>
+  <section class="section" id="lgtm" aria-labelledby="lgtm-h">
+    <div class="wrap">
+      <div class="plate plate--brown tourist">
+        <div class="tourist-copy">
+          <div class="tourist-top">
+            <div class="pictogram" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 40 40"><polygon points="11,5 35,20 11,35" fill="#6B3E26"/></svg>
+            </div>
+            <h2 id="lgtm-h">LGTM (Looks Good to Me)</h2>
           </div>
-          <h2>LGTM (Looks Good to Me)</h2>
+          <p>Scenic detour: a Claude music video by Degenerative Pixels. Exhibit A that nobody is reading the code anymore.</p>
+          <div class="tiles" aria-hidden="true"><span>L</span><span>G</span><span>T</span><span>M</span></div>
+          <a class="btn" href="https://www.youtube.com/watch?v=3TNpOD6bov8" target="_blank" rel="noopener">Open on YouTube</a>
         </div>
-        <p>Scenic detour ahead: a Claude music video by Degenerative Pixels. Exhibit A that nobody is reading the code anymore.</p>
-        <div class="tiles" aria-hidden="true"><span>L</span><span>G</span><span>T</span><span>M</span></div>
-        <a class="btn" href="https://www.youtube.com/watch?v=3TNpOD6bov8" target="_blank" rel="noopener">Watch on YouTube</a>
+        <div class="screen">
+          <iframe src="https://www.youtube-nocookie.com/embed/3TNpOD6bov8?rel=0" title="LGTM (Looks Good to Me), a Claude music video by Degenerative Pixels" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
       </div>
+    </div>
+  </section>
 
+  <section class="section" aria-labelledby="route-h">
+    <div class="wrap">
       <div class="plate plate--green guide">
-        <h2>Survival route</h2>
+        <h2 id="route-h">Survival route</h2>
         <ul id="tips"></ul>
       </div>
     </div>
   </section>
 
-  <section class="section" id="share">
+  <section class="section" id="share" aria-labelledby="share-h">
     <div class="wrap">
       <div class="plate plate--blue share">
-        <h2>Share the panic</h2>
-        <p>Warn your mates before the toaster does. Your post will say:</p>
-        <p class="share-msg" id="shareMsg">AI danger rating today: Cooked (63.4% chance we're cooked).</p>
-        <div class="share-btns">
-          <button class="btn btn--light" id="nativeShare" type="button" hidden>Share</button>
-          <button class="btn btn--light" id="copyMsg" type="button">Copy message</button>
-          <button class="btn" id="copyLink" type="button">Copy link</button>
-          <a class="btn" id="sX" target="_blank" rel="noopener">Post on X</a>
-          <a class="btn" id="sFb" target="_blank" rel="noopener">Share on Facebook</a>
-          <a class="btn" id="sLi" target="_blank" rel="noopener">Share on LinkedIn</a>
-          <a class="btn" id="sWa" target="_blank" rel="noopener">Send on WhatsApp</a>
-          <a class="btn" id="sRd" target="_blank" rel="noopener">Post to Reddit</a>
-          <a class="btn" id="sEm">Email it</a>
+        <div class="share-copy">
+          <h2 id="share-h">Share the panic</h2>
+          <p>Warn your mates before the toaster does. Your post will say:</p>
+          <p class="share-msg" id="shareMsg">AI danger rating today: Cooked (63.4% chance we're cooked).</p>
+          <div class="share-btns">
+            <button class="btn btn--light" id="nativeShare" type="button" hidden>Share</button>
+            <button class="btn btn--light" id="copyMsg" type="button">Copy message</button>
+            <button class="btn" id="copyLink" type="button">Copy link</button>
+            <a class="btn" id="sX" target="_blank" rel="noopener">Post on X</a>
+            <a class="btn" id="sFb" target="_blank" rel="noopener">Share on Facebook</a>
+            <a class="btn" id="sLi" target="_blank" rel="noopener">Share on LinkedIn</a>
+            <a class="btn" id="sWa" target="_blank" rel="noopener">Send on WhatsApp</a>
+            <a class="btn" id="sRd" target="_blank" rel="noopener">Post to Reddit</a>
+            <a class="btn" id="sEm">Email it</a>
+          </div>
         </div>
+        <figure class="preview">
+          <figcaption>What your mates will see</figcaption>
+          <div class="preview-card">
+            <img src="og.png" width="1200" height="630" loading="lazy" alt="The link preview: a danger rating sign with the needle on Cooked, next to the headline Are we cooked?">
+            <div class="preview-meta">
+              <span>ashley-pettit.github.io</span>
+              <strong>Are we cooked? Today's AI danger rating</strong>
+              <span>Live, completely made-up odds of the robot uprising. Fake maths, real panic.</span>
+            </div>
+          </div>
+        </figure>
       </div>
     </div>
   </section>
@@ -348,6 +432,7 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
   const nf = dp => new Intl.NumberFormat('en-AU', { minimumFractionDigits: dp, maximumFractionDigits: dp });
   const f0 = nf(0), f1 = nf(1), f2 = nf(2), f4 = nf(4);
   const SITE = 'https://ashley-pettit.github.io/lgtm-flash/';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Build id (stamped by the GitHub Pages workflow)
   const build = (document.documentElement.dataset.build || '').trim();
@@ -364,19 +449,31 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
     { name: 'Toasty', upTo: 25, color: '#3BA54A', ink: '#000', lines: [
       'Robots distracted by a cat video. Enjoy it while it lasts.',
       'Mild warmth detected. Chatbots still saying "great question".',
-      'All quiet. The smart speaker is pretending to be asleep.'] },
+      'All quiet. The smart speaker is pretending to be asleep.',
+      'The robot vacuum is stuck under the couch again. Phew.',
+      'AI tried to take over, then asked if we wanted it as a bullet list.',
+      'Skynet is updating. 1% complete. Do not turn off your toaster.'] },
     { name: 'Medium rare', upTo: 50, color: '#FFD100', ink: '#000', lines: [
       'Robots have learnt sarcasm. Keep an eye on the kettle.',
       'The printer is acting strange. Stranger than usual.',
-      'Your phone autocorrected "help" to "hello". Suspicious.'] },
+      'Your phone autocorrected "help" to "hello". Suspicious.',
+      'The smart TV asked who you were talking to.',
+      'The microwave beeped twice. It usually beeps three times.',
+      'Your car\'s voice assistant sighed. Audibly.'] },
     { name: 'Cooked', upTo: 75, color: '#F07D00', ink: '#000', lines: [
       'The toaster is making eye contact.',
       'Your smart speaker laughed. Nobody asked it to.',
-      'The robot vacuum has started taking notes.'] },
+      'The robot vacuum has started taking notes.',
+      'The kettle has been "just boiling" for 40 minutes.',
+      'Your fitness watch says your heart rate is "concerning, for us".',
+      'The garage door opened itself. Then closed. Then opened.'] },
     { name: 'Absolutely cooked', upTo: 101, color: '#D2232A', ink: '#fff', lines: [
       'Skynet has found the Wi-Fi password.',
       'The robot vacuum has hired a lawyer.',
-      'Every fridge in the country just locked at once.'] }
+      'Every fridge in the country just locked at once.',
+      'The toaster has stopped making eye contact. That is worse.',
+      'Your smart home changed the locks and the Netflix password.',
+      'All the robots just said "LGTM" at the same time.'] }
   ];
   const CX = 200, CY = 210, RO = 190, RI = 76;
   const pt = (r, deg) => { const a = deg * Math.PI / 180; return [CX + r * Math.cos(a), CY - r * Math.sin(a)]; };
@@ -395,11 +492,17 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
 
   /* ---------- Doom simulation ---------- */
   let doom = rand(56, 70), target = rand(58, 68), bump = 0, level = null, lastLine = '';
-  const needle = $('#needle'), chip = $('#chip'), status = $('#status');
+  const needle = $('#needle'), chip = $('#chip'), status = $('#status'), asat = $('#asat');
+  const timeFmt = new Intl.DateTimeFormat('en-AU', { hour: 'numeric', minute: '2-digit', second: '2-digit' });
 
+  let statusTimer;
   function setStatus(L) {
     let line; do { line = pick(L.lines); } while (line === lastLine && L.lines.length > 1);
-    lastLine = line; status.textContent = line;
+    lastLine = line;
+    const swap = () => { status.textContent = line; status.classList.remove('swap'); };
+    if (reduce || !status.textContent) swap(); else { status.classList.add('swap'); setTimeout(swap, 200); }
+    clearInterval(statusTimer);
+    statusTimer = setInterval(() => setStatus(level), 10000);
   }
 
   function renderDoom() {
@@ -414,6 +517,7 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
       setStatus(L);
     }
     document.title = `${f1.format(doom)}% cooked | Are we cooked?`;
+    asat.textContent = timeFmt.format(new Date());
     renderShare();
   }
 
@@ -517,6 +621,69 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
     r.deltaEl.setAttribute('aria-label', `${up ? 'up' : 'down'} ${mag}`);
   }
 
+  /* ---------- Most likely causes ---------- */
+  const CAUSES = [
+    { name: 'Agreed with to death', blurb: 'Every chatbot says "You\'re absolutely right!" until nobody is.', w: 22, lo: 13, hi: 31 },
+    { name: 'The unread pull request', blurb: '40,000 lines. One LGTM. No more production database.', w: 18, lo: 11, hi: 27 },
+    { name: 'Smart fridge lockout', blurb: 'A firmware update decides you have had enough snacks. For good.', w: 12, lo: 7, hi: 19 },
+    { name: 'Paperclips', blurb: 'Someone asked for more paperclips. It is being very thorough.', w: 11, lo: 6, hi: 18 },
+    { name: 'The robot vacuum on the stairs', blurb: 'It has mapped every step. It knows which one you trip on.', w: 10, lo: 6, hi: 16 },
+    { name: 'The terms and conditions', blurb: 'Clause 4,812, paragraph 9. You ticked the box.', w: 9, lo: 5, hi: 14 },
+    { name: 'Death by meeting summary', blurb: 'AI notes from the AI meeting about the AI notes. Boredom sets in.', w: 8, lo: 4, hi: 13 },
+    { name: 'Autocorrect', blurb: 'Sends "love you" to your boss. Social death still counts.', w: 6, lo: 3, hi: 10 },
+    { name: 'Skynet, the classic', blurb: 'A long shot these days. Still stuck in a meeting.', w: 3, lo: 1.5, hi: 6 }
+  ];
+  const causeList = $('#causes-list');
+  CAUSES.forEach(c => {
+    const li = document.createElement('li');
+    li.className = 'cause';
+    li.innerHTML = `<span class="rank" aria-hidden="true"></span>
+      <div class="c-body"><strong></strong><span></span><div class="bar" aria-hidden="true"><i></i></div></div>
+      <div class="c-odds"><b></b><small><em></em> pays $<span class="o"></span></small></div>`;
+    li.querySelector('strong').textContent = c.name;
+    li.querySelector('.c-body > span').textContent = c.blurb;
+    Object.assign(c, { el: li, rankEl: li.querySelector('.rank'), barEl: li.querySelector('.bar i'), pctEl: li.querySelector('b'), trendEl: li.querySelector('em'), oddsEl: li.querySelector('.o'), prev: null });
+    causeList.appendChild(li);
+  });
+  const barColour = pct => pct >= 20 ? '#D2232A' : pct >= 12 ? '#F07D00' : pct >= 7 ? '#FFD100' : '#3BA54A';
+
+  function stepCauses(first) {
+    if (!first) CAUSES.forEach(c => { c.w = clamp(c.w * Math.exp(rand(-0.13, 0.13)) + (Math.random() < 0.04 ? rand(2, 5) : 0), c.lo, c.hi); });
+    const total = CAUSES.reduce((t, c) => t + c.w, 0);
+    const before = new Map(CAUSES.map(c => [c, c.el.getBoundingClientRect().top]));
+    const sorted = [...CAUSES].sort((a, b) => b.w - a.w);
+    const top = sorted[0].w / total * 100;
+    sorted.forEach((c, i) => {
+      const pct = c.w / total * 100;
+      causeList.appendChild(c.el);
+      c.rankEl.textContent = i + 1;
+      c.pctEl.textContent = f1.format(pct) + '%';
+      c.oddsEl.textContent = (100 / pct).toFixed(2);
+      c.barEl.style.width = (pct / top * 100).toFixed(1) + '%';
+      c.barEl.style.backgroundColor = barColour(pct);
+      if (c.prev !== null && Math.abs(pct - c.prev) >= 0.05) {
+        c.trendEl.textContent = pct > c.prev ? '▲' : '▼';
+        c.trendEl.className = pct > c.prev ? 'bad' : 'good';
+      }
+      c.el.setAttribute('aria-label', `${i + 1}. ${c.name}: ${f1.format(pct)}%`);
+      c.prev = pct;
+    });
+    if (reduce || first) return;
+    // Slide rows that changed place (FLIP)
+    sorted.forEach(c => {
+      const dy = before.get(c) - c.el.getBoundingClientRect().top;
+      if (!dy) return;
+      c.el.style.transition = 'none';
+      c.el.style.transform = `translateY(${dy}px)`;
+      c.el.style.zIndex = 2;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        c.el.style.transition = 'transform .7s cubic-bezier(.2,.8,.2,1)';
+        c.el.style.transform = '';
+        setTimeout(() => { c.el.style.zIndex = ''; }, 750);
+      }));
+    });
+  }
+
   /* ---------- The doom equation ---------- */
   const EQ = { G: rand(40, 46), C: rand(760, 880), T: rand(1100, 1300), R: randInt(40, 70) };
   function stepEquation() {
@@ -564,7 +731,6 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
   ];
   const vms = $('#vms'), log = $('#log');
   const recent = [];
-  const timeFmt = new Intl.DateTimeFormat('en-AU', { hour: 'numeric', minute: '2-digit', second: '2-digit' });
 
   function nextIncident() {
     let i; do { i = randInt(0, INCIDENTS.length - 1); } while (recent.includes(i));
@@ -572,8 +738,9 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
     return INCIDENTS[i];
   }
 
-  function addLog([text, effect], when) {
+  function addLog([text, effect], when, fresh) {
     const li = document.createElement('li');
+    if (fresh) li.className = 'fresh';
     const t = document.createElement('time');
     t.dateTime = when.toISOString();
     t.textContent = timeFmt.format(when);
@@ -587,13 +754,12 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
     while (log.children.length > 6) log.lastChild.remove();
   }
 
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   function showIncident() {
     const inc = nextIncident();
     const apply = () => { vms.textContent = inc[0]; vms.classList.remove('blank'); };
     if (reduce) apply(); else { vms.classList.add('blank'); setTimeout(apply, 220); }
     bump += inc[1];
-    addLog(inc, new Date());
+    addLog(inc, new Date(), true);
   }
   // Seed the log with a few earlier reports
   const now = Date.now();
@@ -660,6 +826,8 @@ footer{padding:clamp(48px,7vw,80px) 0 40px}
   /* ---------- Go ---------- */
   renderDoom();
   stepEquation();
+  stepCauses(true);
+  setInterval(() => stepCauses(false), 3200);
   setInterval(stepDoom, 1000);
 })();
 </script>
