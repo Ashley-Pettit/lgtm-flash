@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone voice test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: plain, practical test bench, like a lab instrument panel
+   IDEA: a row of instrument cards, each one a voice under test, readings filled in live
+   PICTURE: the three test cards themselves, with progress bars and readings
+   COLOUR and TYPE: deep sea ground, sky readings, signal pink for the action; Hanken Grotesk
+   LAYOUT: one calm column on a phone, cards stack; two up on wide screens */
+:root{color-scheme:dark;--bg:#0a2540;--card:#0f3157;--line:#1f4a78;--ink:#fff;--soft:#b9cde3;--sky:#8fd3ff;--pink:#ff5c8a}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Hanken Grotesk",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(20px,4vw,48px) max(5vw,16px);max-width:1100px;margin:0 auto}
+h1{font-weight:300;font-size:clamp(32px,7vw,48px);line-height:1.05;margin:0 0 10px;text-wrap:balance}
+p{margin:0 0 12px;color:var(--soft);max-width:62ch}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:18px 0 6px}
+label{display:block;font-size:14px;color:var(--soft)}
+input{font:16px "Hanken Grotesk",sans-serif;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);width:min(260px,100%);margin-top:4px}
+button{font:600 16px "Hanken Grotesk",sans-serif;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button.go{background:var(--pink);border-color:var(--pink);color:#fff}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.card h2{margin:0;font-size:22px;font-weight:600}
+.meta{font-size:14px;color:var(--soft);margin:2px 0 12px}
+.bar{height:8px;border-radius:8px;background:#081d33;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;width:0;background:var(--sky);transition:width .2s}
+.state{font-size:14px;color:var(--sky);min-height:22px}
+.state.err{color:var(--pink)}
+dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;margin:12px 0;font-size:15px}
+dt{color:var(--soft)}dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.foot{font-size:13px;color:var(--soft);margin-top:18px}
+.saved{color:var(--sky)}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main class="band">
+  <h1>Phone voice test</h1>
+  <p>Three on-device voices, timed on this phone. The text never leaves the phone. The first run downloads about 85 MB, so use Wi-Fi. Turn off silent mode to hear the samples. Tap one test at a time, or run all three (about 2 minutes).</p>
+  <div class="top">
+    <div><label for="phone">Phone model</label><input id="phone" value="iPhone" autocomplete="off"></div>
+    <button class="go" id="all">Run all three</button>
+  </div>
+  <div class="grid" id="cards"></div>
+  <div class="row" style="margin-top:16px"><button id="copy" disabled>Copy results for Claude</button></div>
+  <p class="foot"><span id="dev"></span><br><span id="saved">When the tests finish, tap Copy results and paste them into the chat.</span><br>Build <span id="ver">f62f21e</span></p>
+</main>
+<script type="module">
+{
+const TEXTS = {
+  us: "Dr. Nguyen, your appointment is March 14 at 7:45 a.m. The total is $19.50.",
+  au: "Dr Nguyen, your appointment is on 14 March at 7:45 am. The total is $19.50.",
+  fresh: "Please bring your Medicare card and arrive ten minutes early.",
+  para: "Welcome to the Logan City Council customer service line. Bin collection days may change over the Christmas and New Year period. Please check the council website for the updated schedule in your suburb. If your bin was missed, you can report it online or call us during business hours. Green waste bins are collected every second week. Thank you for helping keep our city clean and green.",
+};
+const VERSION = document.getElementById("ver").textContent;
+const ABBR = /(?:\b(?:mr|mrs|ms|dr|prof|st|vs|etc|no|e\.g|i\.e|a\.m|p\.m)|\b[A-Z])\.$/i;
+const sentences = (t) => { const o = []; let c = ""; for (const p of t.replace(/\s+/g, " ").trim().split(/(?<=[.!?])\s+(?=[A-Z0-9"'])/)) { c = c ? c + " " + p : p; if (!ABBR.test(c)) { o.push(c); c = ""; } } if (c) o.push(c); return o; };
+const tick = () => new Promise((r) => setTimeout(r, 0));
+const base = new URL("./", location.href).href;
+const HF = "https://huggingface.co/";
+const PH = HF + "gradium/phonon-31m-en/resolve/main/";
+
+// ---- the three voices: load() and stream(text, signal) yielding {pcm, sr} ----
+const MODELS = [
+  { key: "tinyvoca", name: "tiny-voca", meta: "Apache-2.0 · 8 MB", mb: 8.2,
+    async load(progress) {
+      const [{ readGGUF, TinyVoca }, { fromGGUF }, { utterancesOf }] = await Promise.all([
+        import("./tv/tiny-voca.js"), import("./tv/dizione/engine.js"), import("./tv/text.js")]);
+      const t0 = performance.now();
+      const buf = await fetchWithProgress(HF + "n4ze3m/tiny-voca/resolve/main/gguf/tiny-voca-js.gguf", progress);
+      this.dlMs = performance.now() - t0; this.dlBytes = buf.byteLength;
+      const file = readGGUF(buf);
+      this.voca = new TinyVoca(file); this.ph = await fromGGUF(file); this.utt = utterancesOf;
+    },
+    async *stream(text, signal) {
+      for (const [seed, { ids, stress }] of this.utt(text, this.ph, this.voca.config.max_tokens - 12).entries()) {
+        if (signal.aborted) return; await tick();
+        const { audio } = this.voca.synthesize(ids, stress, { voice: "M2", seed });
+        if (signal.aborted) return; yield { pcm: audio, sr: this.voca.config.sample_rate };
+      }
+    },
+    dispose() { this.voca = this.ph = null; } },
+  { key: "heartnano", name: "sanoTTS Heart Nano", meta: "GPL-3.0 · 3 MB", mb: 2.9,
+    async load(progress) {
+      const { SanoTTS } = await import("./sano/index.js");
+      progress(0.3);
+      this.tts = await SanoTTS.load({ assetBase: base + "sano/" });
+      progress(0.8);
+      await this.tts.loadVoice("heartnano", { voiceBase: HF + "ampixa/sanoTTS/resolve/main/web/" });
+      progress(1);
+    },
+    async *stream(text, signal) {
+      for (const s of sentences(text)) {
+        if (signal.aborted) return; await tick();
+        const r = await this.tts.synthesize(s, { voice: "heartnano", voiceBase: HF + "ampixa/sanoTTS/resolve/main/web/" });
+        if (signal.aborted) return; yield { pcm: r.samples, sr: r.sampleRate };
+      }
+    },
+    dispose() {} },
+  { key: "phonon", name: "Phonon 31M", meta: "Apache-2.0 · 73 MB", mb: 73,
+    async load(progress) {
+      const { PhononTTS } = await import("./ph/index.js");
+      const t0 = performance.now();
+      this.tts = await PhononTTS.load({
+        lang: "en", device: "cpu", threads: 1, cache: true,
+        model: { weights: { q8: PH + "model.q8.gguf" }, tokenizer: PH + "tokenizer.json",
+                 config: PH + "config.json", voices: { default: PH + "default-voice.safetensors" }, defaultVoice: "default" },
+        onProgress: ({ file, loaded, total, cached }) => { if (file === "weights" && cached) this.cached = true; if (file === "weights" && total) { progress(loaded / total); if (loaded >= total && !this.dlMs) this.dlMs = performance.now() - t0; } },
+      });
+      this.info = { threads: this.tts.threads, threadsReason: this.tts.threadsReason, device: this.tts.device, fromCache: !!this.cached };
+    },
+    async *stream(text, signal) {
+      const s = this.tts.stream(text, { signal });
+      try { for await (const pcm of s) { if (signal.aborted) break; yield { pcm, sr: this.tts.sampleRate }; } }
+      finally { if (signal.aborted) { try { s.cancel?.(); await s.done; } catch {} } }
+    },
+    dispose() { try { this.tts?.dispose(); } catch {} this.tts = null; } },
+];
+
+async function fetchWithProgress(url, progress) {
+  const r = await fetch(url); if (!r.ok) throw new Error(url + ": HTTP " + r.status);
+  const total = Number(r.headers.get("content-length")) || 0;
+  if (!r.body || !total) return await r.arrayBuffer();
+  const out = new Uint8Array(total), rd = r.body.getReader(); let at = 0;
+  for (;;) { const { done, value } = await rd.read(); if (done) break; out.set(value, at); at += value.length; progress(at / total); }
+  return out.buffer;
+}
+
+// ---- measurement ----
+function lagProbe() { let last = performance.now(), worst = 0; const id = setInterval(() => { const n = performance.now(); worst = Math.max(worst, n - last - 10); last = n; }, 10); return () => { clearInterval(id); return Math.max(0, worst); }; }
+async function speak(m, text) {
+  const stop = lagProbe(), t0 = performance.now(); let ttfa = null, n = 0, sr = 24000; const parts = [];
+  for await (const { pcm, sr: rate } of m.stream(text, new AbortController().signal)) { if (ttfa === null) ttfa = performance.now() - t0; sr = rate; parts.push(pcm.slice()); n += pcm.length; }
+  const total = performance.now() - t0, stall = stop();
+  const all = new Float32Array(n); let at = 0; for (const p of parts) { all.set(p, at); at += p.length; }
+  return { ttfa, total, sec: n / sr, sr, stall, pcm: all };
+}
+async function interrupt(m) {
+  const ac = new AbortController(); let first = null, fired = null;
+  try { for await (const _ of m.stream(TEXTS.para, ac.signal)) { if (first === null) { first = performance.now(); setTimeout(() => { fired = performance.now(); ac.abort(); }, 600); } } } catch (e) { if (!ac.signal.aborted) throw e; }
+  const end = performance.now();
+  return fired === null ? { finishedFirst: true } : { lateMs: fired - first - 600, engineMs: end - fired };
+}
+
+// ---- audio ----
+let ctx = null;
+function audio() { ctx ??= new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === "suspended") ctx.resume(); return ctx; }
+function play(clip) { const c = audio(); const b = c.createBuffer(1, clip.pcm.length, clip.sr); b.getChannelData(0).set(clip.pcm); const s = c.createBufferSource(); s.buffer = b; s.connect(c.destination); s.start(); }
+
+// ---- results to Claude (copied by the viewer) ----
+const results = {};
+async function save(key, data) { results[key] = data; document.getElementById("copy").disabled = false;
+  document.getElementById("saved").textContent = "Ready to copy: " + Object.keys(results).join(", "); }
+document.getElementById("copy").addEventListener("click", async () => {
+  const r = (x) => (typeof x === "number" ? Math.round(x * 100) / 100 : x);
+  const text = "PHONE VOICE TEST " + VERSION + "\n" + JSON.stringify(results, (k, v) => r(v));
+  const el = document.getElementById("saved");
+  try { await navigator.clipboard.writeText(text); el.textContent = "Copied. Paste it into the chat with Claude."; }
+  catch { el.textContent = "Copy was blocked. Screenshot the cards instead."; }
+});
+
+// ---- UI ----
+const cards = document.getElementById("cards");
+const f = (ms) => (ms / 1000).toFixed(ms < 10000 ? 2 : 1) + " s";
+cards.innerHTML = MODELS.map((m) => `
+  <section class="card" id="c-${m.key}">
+    <h2>${m.name}</h2><div class="meta">${m.meta}</div>
+    <div class="bar"><i></i></div><div class="state">Not run yet</div>
+    <dl></dl>
+    <div class="row"><button class="run">Run test</button><button class="pus" disabled>Play US</button><button class="pau" disabled>Play AU</button></div>
+  </section>`).join("");
+const device = { ua: navigator.userAgent, cores: navigator.hardwareConcurrency || null, memoryGB: navigator.deviceMemory || null, isolated: self.crossOriginIsolated === true, screen: `${screen.width}x${screen.height}@${devicePixelRatio}` };
+document.getElementById("dev").textContent = `${device.cores ?? "?"} cores reported · threads ${device.isolated ? "allowed" : "not allowed on this host"}`;
+
+let busy = false;
+async function run(m) {
+  const el = document.getElementById("c-" + m.key), st = el.querySelector(".state"), bar = el.querySelector(".bar i"), dl = el.querySelector("dl");
+  const set = (t, err) => { st.textContent = t; st.classList.toggle("err", !!err); };
+  const show = (rows) => { dl.innerHTML = ""; for (const [k, v] of rows) { const dt = document.createElement("dt"), dd = document.createElement("dd"); dt.textContent = k; dd.textContent = v; dl.append(dt, dd); } };
+  const res = { model: m.key, phone: document.getElementById("phone").value.slice(0, 60), at: new Date().toISOString(), version: VERSION, ...device };
+  try {
+    set("Downloading…"); bar.style.width = "0";
+    const t0 = performance.now();
+    await m.load((p) => { bar.style.width = Math.round(Math.min(1, p) * 100) + "%"; });
+    res.loadMs = performance.now() - t0; res.downloadMs = m.dlMs ?? null; res.info = m.info ?? null; bar.style.width = "100%";
+    set("Speaking the US line…"); await tick();
+    const us = await speak(m, TEXTS.us); res.coldFirstWordsMs = res.loadMs + us.ttfa; res.usFirstAudioMs = us.ttfa;
+    set("Speaking the AU line…"); await tick();
+    const au = await speak(m, TEXTS.au); res.auFirstAudioMs = au.ttfa;
+    set("New sentence…"); await tick();
+    const fr = await speak(m, TEXTS.fresh); res.warmFirstAudioMs = fr.ttfa;
+    set("Paragraph…"); await tick();
+    const pa = await speak(m, TEXTS.para); res.paraRtf = (pa.total / 1000) / pa.sec; res.headroom = 1 / res.paraRtf;
+    res.freezeMs = Math.max(us.stall, au.stall, fr.stall, pa.stall);
+    set("Stop test…"); await tick();
+    const it = await interrupt(m); res.stop = it;
+    el.querySelector(".pus").onclick = () => play(us); el.querySelector(".pau").onclick = () => play(au);
+    el.querySelector(".pus").disabled = el.querySelector(".pau").disabled = false;
+    show([["Download and start", f(res.loadMs)], ["First words, first go", f(res.coldFirstWordsMs)], ["First words, after that", f(res.warmFirstAudioMs)],
+          ["Speed headroom", res.headroom.toFixed(1) + "x"], ["Worst page freeze", f(res.freezeMs)], ["Stop delay", it.finishedFirst ? "finished first" : f(it.lateMs + it.engineMs)]]);
+    set(res.headroom >= 1 ? "Done. Faster than real time." : "Done. Slower than real time: speech will stutter.");
+  } catch (e) {
+    res.error = String(e?.message || e).slice(0, 500); set("Failed: " + res.error, true);
+  } finally {
+    m.dispose?.();
+    await save(m.key, res);
+  }
+}
+for (const m of MODELS) document.querySelector(`#c-${m.key} .run`).addEventListener("click", async () => { if (busy) return; busy = true; audio(); lock(true); await run(m); lock(false); busy = false; });
+document.getElementById("all").addEventListener("click", async () => { if (busy) return; busy = true; audio(); lock(true); for (const m of MODELS) await run(m); lock(false); busy = false; });
+function lock(on) { document.querySelectorAll("button.run,#all").forEach((b) => (b.disabled = on)); }
+}
+</script>
+</body>
+</html>
